@@ -109,4 +109,27 @@ describe("classic", () => {
 
 	});
 
+	it("should test unused", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "unused", "package.json"), join(__dirname, "unused"), {
+			"noDev": true
+		}).then((result) => {
+
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, false);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 1);
+
+		});
+
+	});
+
 });
