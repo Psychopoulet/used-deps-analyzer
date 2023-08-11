@@ -1,3 +1,8 @@
+export interface iOptions {
+    "noDev"?: boolean;
+    "onlyDev"?: boolean;
+    "overkill"?: Array<string>;
+}
 export interface iExtractionResult {
     "file": string;
     "modules": Array<string>;

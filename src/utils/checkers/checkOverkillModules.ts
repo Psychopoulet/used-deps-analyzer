@@ -4,31 +4,35 @@
 
 	// locals
 
-	import { iExtractionResult, iResult } from "../../interfaces";
+	import { iOptions, iExtractionResult, iResult } from "../../interfaces";
 
 // module
 
-export default function checkNativesModules (extractionResult: Array<iExtractionResult>, overkill: Array<string>): iResult {
+export default function checkNativesModules (extractionResult: Array<iExtractionResult>, options?: iOptions): iResult {
 
 	const warnings: Array<string> = [];
 
-		extractionResult.forEach((f: iExtractionResult): void => {
+		if (options && options.overkill && "object" === typeof options.overkill && options.overkill instanceof Array && options.overkill.length) {
 
-			f.modules.forEach((m) => {
+			extractionResult.forEach((f: iExtractionResult): void => {
 
-				if (overkill.map((o) => {
-					return o.trim();
-				}).includes(m)) {
+				f.modules.forEach((m: string): void => {
 
-					warnings.push(
-						"The module \"" + m + "\" used it the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
-					);
+					if ((options.overkill as Array<string>).map((o: string): string => {
+						return o.trim();
+					}).includes(m)) {
 
-				}
+						warnings.push(
+							"The module \"" + m + "\" used it the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
+						);
+
+					}
+
+				});
 
 			});
 
-		});
+		}
 
 	return {
 		"result": true,

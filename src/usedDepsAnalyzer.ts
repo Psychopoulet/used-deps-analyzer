@@ -14,12 +14,13 @@
 	import mergeResults from "./utils/mergeResults";
 	import checkNativesModules from "./utils/checkers/checkNativesModules";
 	import checkOverkillModules from "./utils/checkers/checkOverkillModules";
+	import checkUnusedModules from "./utils/checkers/checkUnusedModules";
 
 // types & interfaces
 
 	// locals
 
-	import { iExtractionResult } from "./interfaces";
+	import { iOptions, iExtractionResult } from "./interfaces";
 
 	interface iExtractedPackageContent {
 		"dependencies"?: { [key:string]: string };
@@ -39,18 +40,16 @@
 
 // module
 
-export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyze: string, options?: {
-	"noDev"?: boolean;
-	"onlyDev"?: boolean;
-	"overkill"?: Array<string>;
-}): Promise<iResult> {
+export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyze: string, options?: iOptions): Promise<iResult> {
 
 	return isFile(packageFile).then((exists: boolean): Promise<void> => {
 		return exists ? Promise.resolve() : Promise.reject(new ReferenceError("Package file not found"));
 	}).then((): Promise<boolean> => {
 		return isDirectory(directoryToAnalyze);
 	}).then((exists: boolean): Promise<void> => {
-		return exists ? Promise.resolve() : Promise.reject(new ReferenceError("Package file not found"));
+		return exists ? Promise.resolve() : Promise.reject(new ReferenceError("Directory to analyse not found"));
+	}).then((): Promise<void> => {
+		return !options || !options.noDev || !options.onlyDev ? Promise.resolve() : Promise.reject(new Error("\"noDev\" && \"onlyDev\" options are incompatible"));
 	}).then((): Promise<iFormattedPackageContent> => {
 
 		return readFile(packageFile, "utf-8").then((content: string): iExtractedPackageContent => {
@@ -79,15 +78,22 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 				"errors": []
 			};
 
-				mergeResults(checkNativesModules(extractionResult), result);
+				mergeResults(
+					checkNativesModules(extractionResult),
+					result
+				);
 
-				if (options && options.overkill && "object" === typeof options.overkill && options.overkill instanceof Array && options.overkill.length) {
-					mergeResults(checkOverkillModules(extractionResult, options.overkill), result);
-				}
+				mergeResults(
+					checkOverkillModules(extractionResult, options),
+					result
+				);
 
-				/*
-				mergeResults(checkUnusedModules(extractionResult), result);
-				mergeResults(checkMissingModules(extractionResult), result);*/
+				mergeResults(
+					checkUnusedModules( extractionResult, dependencies, devDependencies, options),
+					result
+				);
+
+				// mergeResults(checkMissingModules(extractionResult), result);
 
 			return result;
 
