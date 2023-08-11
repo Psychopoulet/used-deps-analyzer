@@ -11,7 +11,6 @@
 export default function checkUnusedModules (extractionResult: Array<iExtractionResult>, dependencies: Array<string>, devDependencies: Array<string>): iResult {
 
 	let result = true;
-
 	const errors: Array<string> = [];
 
 		let usedDeps: Array<string> = [];

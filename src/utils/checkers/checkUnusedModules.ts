@@ -10,7 +10,8 @@
 
 export default function checkUnusedModules (extractionResult: Array<iExtractionResult>, dependencies: Array<string>, devDependencies: Array<string>, options?: iOptions): iResult {
 
-	const warnings: Array<string> = [];
+	let result = true;
+	const errors: Array<string> = [];
 
 		let usedDeps: Array<string> = [];
 
@@ -20,15 +21,17 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 
 		usedDeps = [ ...new Set(usedDeps) ];
 
-		if (!options || !options.noDev) {
+		if ("object" !== typeof options || "boolean" !== typeof options.onlyDev || !options.onlyDev) {
 
 			dependencies.forEach((dep: string): void => {
 
 				if (!usedDeps.includes(dep)) {
 
-					warnings.push(
+					errors.push(
 						"[UNUSED] The installed module \"" + dep + "\" is not used in code"
 					);
+
+					result = false;
 
 				}
 
@@ -36,15 +39,17 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 
 		}
 
-		if (!options || !options.onlyDev) {
+		if ("object" !== typeof options || "boolean" !== typeof options.noDev || !options.noDev) {
 
 			devDependencies.forEach((dep: string): void => {
 
 				if (!usedDeps.includes(dep)) {
 
-					warnings.push(
-						"[UNUSED] The installed dev module \"" + dep + "\" is not used in code"
+					errors.push(
+						"[UNUSED - DEV] The installed module \"" + dep + "\" is not used in code"
 					);
+
+					result = false;
 
 				}
 
@@ -53,9 +58,9 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 		}
 
 	return {
-		"result": true,
-		"warnings": warnings,
-		"errors": []
+		"result": result,
+		"warnings": [],
+		"errors": errors
 	};
 
 };
