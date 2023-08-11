@@ -31,7 +31,7 @@ export default function checkNativesModules (extractionResult: Array<iExtraction
 				notRewritten.forEach((m: string): void => {
 
 					warnings.push(
-						"The module \"" + m + "\" used it the file \"" + f.file + "\" does not have the valid syntax. Please use \"node:\" as prefix"
+						"[NATIVE] The module \"" + m + "\" used it the file \"" + f.file + "\" does not have the valid syntax. Please use \"node:\" as prefix"
 					);
 
 				});

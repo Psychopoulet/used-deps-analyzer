@@ -23,7 +23,7 @@ export default function checkNativesModules (extractionResult: Array<iExtraction
 					}).includes(m)) {
 
 						warnings.push(
-							"The module \"" + m + "\" used it the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
+							"[OVERKILL] The module \"" + m + "\" used it the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
 						);
 
 					}

@@ -27,7 +27,7 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 				if (!usedDeps.includes(dep)) {
 
 					warnings.push(
-						"The installed module \"" + dep + "\" is not used in code"
+						"[UNUSED] The installed module \"" + dep + "\" is not used in code"
 					);
 
 				}
@@ -43,7 +43,7 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 				if (!usedDeps.includes(dep)) {
 
 					warnings.push(
-						"The installed dev module \"" + dep + "\" is not used in code"
+						"[UNUSED] The installed dev module \"" + dep + "\" is not used in code"
 					);
 
 				}

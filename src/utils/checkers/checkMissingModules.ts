@@ -29,7 +29,7 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 				if (!dependencies.includes(m) && !devDependencies.includes(m)) {
 
 					errors.push(
-						"The module \"" + m + "\" used it the file \"" + f.file + "\" is not registered in package dependencies"
+						"[MISSING] The module \"" + m + "\" used it the file \"" + f.file + "\" is not registered in package dependencies"
 					);
 
 					result = false;
