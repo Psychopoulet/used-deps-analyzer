@@ -16,10 +16,7 @@
 
 // types & interfaces
 
-	export interface iExtractionResult {
-		"file": string;
-		"modules": Array<string>;
-	};
+	import { iExtractionResult } from "../../interfaces";
 
 // private
 

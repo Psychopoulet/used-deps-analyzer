@@ -11,12 +11,15 @@
 	import isDirectory from "./utils/isDirectory";
 
 	import getExternalModulesFromDirectory from "./utils/extractModules/getExternalModulesFromDirectory";
+	import mergeResults from "./utils/mergeResults";
+	import checkNativesModules from "./utils/checkers/checkNativesModules";
+	import checkOverkillModules from "./utils/checkers/checkOverkillModules";
 
 // types & interfaces
 
 	// locals
 
-	import { iExtractionResult } from "./utils/extractModules/getExternalModulesFromDirectory";
+	import { iExtractionResult } from "./interfaces";
 
 	interface iExtractedPackageContent {
 		"dependencies"?: { [key:string]: string };
@@ -28,7 +31,7 @@
 		"devDependencies": Array<string>;
 	};
 
-	interface iResult {
+	export interface iResult {
 		"result": boolean;
 		"warnings": Array<string>;
 		"errors": Array<string>;
@@ -36,10 +39,10 @@
 
 // module
 
-export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyze: string, options: {
-	"no-dev": boolean;
-	"only-dev": boolean;
-	"overkill": boolean;
+export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyze: string, options?: {
+	"noDev"?: boolean;
+	"onlyDev"?: boolean;
+	"overkill"?: Array<string>;
 }): Promise<iResult> {
 
 	return isFile(packageFile).then((exists: boolean): Promise<void> => {
@@ -70,18 +73,23 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 
 			console.log("extractionResult", extractionResult);
 
-			let result: boolean = true;
-
-				/*result = result && _checkNativesModules(extractionResult);
-				result = result && _checkOverkillModules(extractionResult);
-				result = result && _checkUnusedModules(extractionResult, dependencies);
-				result = result && _checkMissingModules(extractionResult, dependencies, devDependencies);*/
-
-			return {
-				"result": result,
+			let result: iResult = {
+				"result": true,
 				"warnings": [],
 				"errors": []
 			};
+
+				mergeResults(checkNativesModules(extractionResult), result);
+
+				if (options && options.overkill && "object" === typeof options.overkill && options.overkill instanceof Array && options.overkill.length) {
+					mergeResults(checkOverkillModules(extractionResult, options.overkill), result);
+				}
+
+				/*
+				mergeResults(checkUnusedModules(extractionResult), result);
+				mergeResults(checkMissingModules(extractionResult), result);*/
+
+			return result;
 
 		});
 
