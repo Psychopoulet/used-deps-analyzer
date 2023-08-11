@@ -15,6 +15,7 @@
 	import checkNativesModules from "./utils/checkers/checkNativesModules";
 	import checkOverkillModules from "./utils/checkers/checkOverkillModules";
 	import checkUnusedModules from "./utils/checkers/checkUnusedModules";
+	import checkMissingModules from "./utils/checkers/checkMissingModules";
 
 // types & interfaces
 
@@ -65,12 +66,7 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 
 	}).then(({ dependencies, devDependencies }: iFormattedPackageContent): Promise<iResult> => {
 
-		console.log("dependencies", dependencies);
-		console.log("devDependencies", devDependencies);
-
 		return getExternalModulesFromDirectory(directoryToAnalyze).then((extractionResult: Array<iExtractionResult>): iResult => {
-
-			console.log("extractionResult", extractionResult);
 
 			let result: iResult = {
 				"result": true,
@@ -89,11 +85,14 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 				);
 
 				mergeResults(
-					checkUnusedModules( extractionResult, dependencies, devDependencies, options),
+					checkUnusedModules(extractionResult, dependencies, devDependencies, options),
 					result
 				);
 
-				// mergeResults(checkMissingModules(extractionResult), result);
+				mergeResults(
+					checkMissingModules(extractionResult, dependencies, devDependencies),
+					result
+				);
 
 			return result;
 
