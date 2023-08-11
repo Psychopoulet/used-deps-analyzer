@@ -73,7 +73,7 @@ describe("classic", () => {
 
 				strictEqual(typeof result.warnings, "object");
 				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 1);
+				strictEqual(result.warnings.length, 2);
 
 				strictEqual(typeof result.errors, "object");
 				strictEqual(result.errors instanceof Array, true);
@@ -99,7 +99,7 @@ describe("classic", () => {
 
 				strictEqual(typeof result.warnings, "object");
 				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 1);
+				strictEqual(result.warnings.length, 2);
 
 				strictEqual(typeof result.errors, "object");
 				strictEqual(result.errors instanceof Array, true);
@@ -149,7 +149,7 @@ describe("classic", () => {
 
 				strictEqual(typeof result.errors, "object");
 				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 1);
+				strictEqual(result.errors.length, 2);
 
 		});
 
