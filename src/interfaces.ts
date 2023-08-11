@@ -12,7 +12,8 @@ export interface iOptions {
 	"noDev"?: boolean;
 	"onlyDev"?: boolean;
 	"overkill"?: Array<string>;
-	"submodules"?: Array<iSubModule>
+	"misscalled"?: Array<iSubModule>;
+	"shadows": Array<string>;
 };
 
 export interface iExtractionResult {

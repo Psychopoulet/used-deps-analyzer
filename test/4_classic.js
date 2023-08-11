@@ -137,11 +137,11 @@ describe("valid running", () => {
 
 	});
 
-	it("should test sub-module compatibility", () => {
+	it("should test misscalled compatibility", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "sub-module", "package.json"), join(__dirname, "sub-module"), {
+		return usedDepsAnalyzer(join(__dirname, "misscalled", "package.json"), join(__dirname, "misscalled"), {
 			"noDev": true,
-			"submodules": [
+			"misscalled": [
 				{
 					"module": "colors",
 					"call": "colors/safe"
@@ -149,7 +149,29 @@ describe("valid running", () => {
 			]
 		}).then((result) => {
 
-			console.log(result);
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, true);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 0);
+
+		});
+
+	});
+
+	it("should test shadows compatibility", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "shadows", "package.json"), join(__dirname, "shadows"), {
+			"noDev": true,
+			"shadows": [ "colors" ]
+		}).then((result) => {
 
 			strictEqual(typeof result, "object");
 

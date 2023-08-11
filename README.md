@@ -31,9 +31,11 @@ $ npm install used-deps-analyzer
 
 ## Options
 
-  * noDev    : do not use dev deps for comparaison (used files, don't use it to analyze test or build scripts)
-  * onlyDev  : use only dev deps for comparaison (test or build scripts, don't use it to analyze used files)
-  * overkill : list of deps which should not be used but can be still present for unknown reasons (do not fail, trigger only warnings)
+  * noDev      : do not use dev deps for comparaison (used files, don't use it to analyze test or build scripts)
+  * onlyDev    : use only dev deps for comparaison (test or build scripts, don't use it to analyze used files)
+  * overkill   : list of deps which should not be used but can be still present for unknown reasons (do not fail, trigger only warnings)
+  * misscalled : list of deps which are not called by this name in the code
+  * shadows    : list of deps which are used in the code but not required (to force a sub-dep version for example)
 
 ### Run
 
@@ -45,11 +47,15 @@ usedDepsAnalyzer("./package.json", "./src", {
 	"overkill": [
 		"node-promfs"
 	],
-	"submodules": [
+	"misscalled": [
 		{
 			"module": "colors",
 			"call": "colors/safe"
 		}
+	],
+	"shadows": [
+		"newer-version",
+		"not-called-front-lib"
 	]
 }).then((analyze) => {
 

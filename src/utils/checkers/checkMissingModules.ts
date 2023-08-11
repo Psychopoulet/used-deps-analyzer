@@ -14,6 +14,8 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 	let result = true;
 	const errors: Array<string> = [];
 
+		const misscalled: Array<iSubModule> = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
+
 		extractionResult.forEach((f: iExtractionResult): void => {
 
 			f.modules.filter((m: string): boolean => {
@@ -22,9 +24,9 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 
 				let originalModule: string = m;
 
-				if (options && "object" === typeof options.submodules && options.submodules instanceof Array && 0 < options.submodules.length) {
+				if (0 < misscalled.length) {
 
-					const converter: iSubModule | undefined = options.submodules.find((submodule: iSubModule): boolean => {
+					const converter: iSubModule | undefined = misscalled.find((submodule: iSubModule): boolean => {
 						return m === submodule.call;
 					});
 
