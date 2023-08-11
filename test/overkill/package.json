@@ -1,6 +1,6 @@
 {
 
-	"name": "test-natives",
+	"name": "test-overkill",
 	"version": "0.0.1",
 	"description": "This is a test",
 
@@ -9,7 +9,9 @@
 	"author": "Sébastien VIDAL",
 	"license": "ISC",
 
-	"dependencies": {},
+	"dependencies": {
+		"node-promfs": "3.7.0"
+	},
 	"devDependencies": {}
 
 }
