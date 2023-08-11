@@ -37,7 +37,7 @@ describe("classic", () => {
 
 	});
 
-	it("should test current module sources (sources)", () => {
+	it("should test current module sources", () => {
 
 		return usedDepsAnalyzer(packageFile, sourceDirectory, {
 			"noDev": true
@@ -60,9 +60,9 @@ describe("classic", () => {
 
 	});
 
-	it("should test current module sources (tests)", () => {
+	it("should test natives", () => {
 
-		return usedDepsAnalyzer(packageFile, join(__dirname, "..", "test"), {
+		return usedDepsAnalyzer(join(__dirname, "natives", "package.json"), join(__dirname, "natives"), {
 			"noDev": true
 		}).then((result) => {
 
@@ -73,7 +73,7 @@ describe("classic", () => {
 
 				strictEqual(typeof result.warnings, "object");
 				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+				strictEqual(result.warnings.length, 1);
 
 				strictEqual(typeof result.errors, "object");
 				strictEqual(result.errors instanceof Array, true);
