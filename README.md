@@ -31,15 +31,11 @@ $ npm install used-deps-analyzer
 
 ## Options
 
-  * noDev    | --no-dev  : do not use dev deps for comparaison (used files, don't use it to analyze test or build scripts)
-  * onlyDev  | only-dev  : use only dev deps for comparaison (test or build scripts, don't use it to analyze used files)
-  * overkill | overkill  : list of deps which should not be used but can be still present for unknown reasons (do not fail, trigger only warnings)
+  * noDev    : do not use dev deps for comparaison (used files, don't use it to analyze test or build scripts)
+  * onlyDev  : use only dev deps for comparaison (test or build scripts, don't use it to analyze used files)
+  * overkill : list of deps which should not be used but can be still present for unknown reasons (do not fail, trigger only warnings)
 
 ### Run
-
-```bash
-npm run used-deps-analyzer -- --package "./package.json" --dir "./src" --no-dev --overkill "node-promfs" "node-logs"
-```
 
 ```js
 const usedDepsAnalyzer = require("used-deps-analyzer");
@@ -48,6 +44,12 @@ usedDepsAnalyzer("./package.json", "./src", {
 	"noDev": true,
 	"overkill": [
 		"node-promfs"
+	],
+	"submodules": [
+		{
+			"module": "colors",
+			"call": "colors/safe"
+		}
 	]
 }).then((analyze) => {
 

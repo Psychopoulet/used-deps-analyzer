@@ -4,7 +4,7 @@
 
 	// locals
 
-	import { iOptions, iExtractionResult, iResult } from "../../interfaces";
+	import { iOptions, iSubModule, iExtractionResult, iResult } from "../../interfaces";
 
 // module
 
@@ -16,7 +16,27 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 		let usedDeps: Array<string> = [];
 
 			extractionResult.forEach((f: iExtractionResult): void => {
-				usedDeps = [ ...usedDeps, ...f.modules ];
+
+				usedDeps = [ ...usedDeps, ...f.modules.map((m: string): string => {
+
+					let originalModule: string = m;
+
+						if (options && "object" === typeof options.submodules && options.submodules instanceof Array && 0 < options.submodules.length) {
+
+							const converter: iSubModule | undefined = options.submodules.find((submodule: iSubModule): boolean => {
+								return m === submodule.call;
+							});
+
+							if (converter) {
+								originalModule = converter.module;
+							}
+
+						}
+
+					return originalModule;
+
+				}) ];
+
 			});
 
 		usedDeps = [ ...new Set(usedDeps) ];

@@ -90,7 +90,7 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 				);
 
 				mergeResults(
-					checkMissingModules(extractionResult, dependencies, devDependencies),
+					checkMissingModules(extractionResult, dependencies, devDependencies, options),
 					result
 				);
 
