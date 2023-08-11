@@ -1,0 +1,15 @@
+{
+
+	"name": "test-missing",
+	"version": "0.0.1",
+	"description": "This is a test",
+
+	"main": "./main.js",
+
+	"author": "Sébastien VIDAL",
+	"license": "ISC",
+
+	"dependencies": {},
+	"devDependencies": {}
+
+}
