@@ -5,6 +5,7 @@
 	// locals
 
 	import { iExtractionResult, iResult } from "../../interfaces";
+	import natives from "./natives";
 
 // module
 
@@ -13,17 +14,11 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 	let result = true;
 	const errors: Array<string> = [];
 
-		let usedDeps: Array<string> = [];
-
-			extractionResult.forEach((f: iExtractionResult): void => {
-				usedDeps = [ ...usedDeps, ...f.modules ];
-			});
-
-		usedDeps = [ ...new Set(usedDeps) ];
-
 		extractionResult.forEach((f: iExtractionResult): void => {
 
-			f.modules.forEach((m: string): void => {
+			f.modules.filter((m: string): boolean => {
+				return !natives.includes(m);
+			}).forEach((m: string): void => {
 
 				if (!dependencies.includes(m) && !devDependencies.includes(m)) {
 

@@ -5,14 +5,7 @@
 	// locals
 
 	import { iExtractionResult, iResult } from "../../interfaces";
-
-// consts
-
-	const NATIVES = [
-		"child_process", "crypto", "dgram", "events", "fs", "fs/promises",
-		"http", "https", "net", "os", "path", "process", "querystring", "stream", "url",
-		"worker_threads"
-	];
+	import natives from "./natives";
 
 // module
 
@@ -23,7 +16,7 @@ export default function checkNativesModules (extractionResult: Array<iExtraction
 		extractionResult.forEach((f: iExtractionResult): void => {
 
 			const notRewritten: Array<string> = f.modules.filter((m: string): boolean => {
-				return NATIVES.includes(m);
+				return natives.includes(m);
 			});
 
 			if (notRewritten.length) {
