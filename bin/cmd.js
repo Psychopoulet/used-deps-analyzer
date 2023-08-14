@@ -90,6 +90,10 @@ Promise.resolve().then(() => {
 
 		if (analyse.result) {
 
+			analyse.warnings.forEach((warn) => {
+				(0, console).warn(warn);
+			});
+
 			(0, process).exitCode = 0;
 			(0, process).exit(0);
 
