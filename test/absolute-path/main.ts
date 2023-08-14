@@ -11,5 +11,5 @@
 // module
 
 export default function doNothing (): void {
-	console.log(colors.red("error"));
+	(0, console).log(colors.red("error"));
 };

@@ -8,5 +8,5 @@
 // module
 
 module.exports = function doNothing () {
-	console.log(colors.red("error"));
+	(0, console).log(colors.red("error"));
 };
