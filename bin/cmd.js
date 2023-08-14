@@ -47,7 +47,13 @@ Promise.resolve().then(() => {
 					break;
 
 					case "--overkill":
-						options.overkill = true;
+
+						options.overkill = [];
+
+						for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
+							options.overkill.push(ARGS[j]);
+						}
+
 					break;
 
 					case "--misscalled":
