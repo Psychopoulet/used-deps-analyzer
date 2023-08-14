@@ -190,4 +190,79 @@ describe("valid running", () => {
 
 	});
 
+	it("should test absolute path", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "absolute-path", "package.json"), join(__dirname, "absolute-path"), {
+			"noDev": true
+		}).then((result) => {
+
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, true);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 0);
+
+		});
+
+	});
+
+	it("should test relative path", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "relative-path", "package.json"), join(__dirname, "relative-path"), {
+			"noDev": true
+		}).then((result) => {
+
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, true);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 0);
+
+		});
+
+	});
+
+	it("should test combo", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "combo", "package.json"), join(__dirname, "combo"), {
+			"onlyDev": true,
+			"misscalled": [
+				{
+					"module": "colors",
+					"call": "colors/safe"
+				}
+			]
+		}).then((result) => {
+
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, true);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 0);
+
+		});
+
+	});
+
 });
