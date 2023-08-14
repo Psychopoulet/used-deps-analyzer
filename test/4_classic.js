@@ -69,9 +69,7 @@ describe("valid running", () => {
 
 		return usedDepsAnalyzer(join(__dirname, "overkill", "package.json"), join(__dirname, "overkill"), {
 			"noDev": true,
-			"overkill": [
-				"node-promfs"
-			]
+			"overkill": [ "node-promfs" ]
 		}).then((result) => {
 
 			strictEqual(typeof result, "object");

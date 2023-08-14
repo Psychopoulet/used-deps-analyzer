@@ -2,4 +2,6 @@
 
 // module
 
-export default function doNothing (): void {};
+export default function doNothing (): void {
+	// nothing to do here
+};
