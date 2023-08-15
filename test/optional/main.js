@@ -8,12 +8,12 @@
 	try {
 		colors = require("colors/safe");
 	}
-	catch(e) {
+	catch (e) {
 		// nothing to do here
 	}
 
 // module
 
 module.exports = function doNothing () {
-	// nothing to do here
+	return colors.red ? colors.red("test") : "test";
 };
