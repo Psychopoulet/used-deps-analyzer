@@ -1,7 +1,5 @@
 "use strict";
 
-import { interfaces } from "mocha";
-
 // deps
 
 	// externals
