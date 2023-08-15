@@ -263,4 +263,33 @@ describe("valid running", () => {
 
 	});
 
+	it("should test optional", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "optional", "package.json"), join(__dirname, "optional"), {
+			"onlyDev": true,
+			"misscalled": [
+				{
+					"module": "colors",
+					"call": "colors/safe"
+				}
+			]
+		}).then((result) => {
+
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, true);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 0);
+
+		});
+
+	});
+
 });
