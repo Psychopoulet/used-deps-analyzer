@@ -9,7 +9,7 @@
 
 // module
 
-export default function checkUnusedModules (extractionResult: Array<iExtractionResult>, dependencies: Array<string>, devDependencies: Array<string>, options?: iOptions): iResult {
+export default function checkUnusedModules (extractionResult: Array<iExtractionResult>, dependencies: Array<string>, devDependencies: Array<string>, optionalDependencies: Array<string>, options?: iOptions): iResult {
 
 	let result = true;
 	const errors: Array<string> = [];
@@ -36,7 +36,7 @@ export default function checkUnusedModules (extractionResult: Array<iExtractionR
 
 				}
 
-				if (!dependencies.includes(originalModule) && !devDependencies.includes(originalModule)) {
+				if (!dependencies.includes(originalModule) && !devDependencies.includes(originalModule) && !optionalDependencies.includes(originalModule)) {
 
 					errors.push(
 						"[MISSING] The module \"" + originalModule + "\" used it the file \"" + f.file + "\" is not registered in package dependencies"
