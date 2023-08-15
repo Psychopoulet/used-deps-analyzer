@@ -26,11 +26,13 @@
 	interface iExtractedPackageContent {
 		"dependencies"?: { [key:string]: string };
 		"devDependencies"?: { [key:string]: string };
+		"optionalDependencies"?: { [key:string]: string };
 	};
 
 	interface iFormattedPackageContent {
 		"dependencies": Array<string>;
 		"devDependencies": Array<string>;
+		"optionalDependencies": Array<string>;
 	};
 
 	export interface iResult {
@@ -55,16 +57,17 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 
 		return readFile(packageFile, "utf-8").then((content: string): iExtractedPackageContent => {
 			return JSON.parse(content);
-		}).then(({ dependencies, devDependencies }: iExtractedPackageContent): iFormattedPackageContent => {
+		}).then(({ dependencies, devDependencies, optionalDependencies }: iExtractedPackageContent): iFormattedPackageContent => {
 
 			return {
 				"dependencies": dependencies ? Object.keys(dependencies) : [],
-				"devDependencies": devDependencies ? Object.keys(devDependencies) : []
+				"devDependencies": devDependencies ? Object.keys(devDependencies) : [],
+				"optionalDependencies": optionalDependencies ? Object.keys(optionalDependencies) : []
 			};
 
 		});
 
-	}).then(({ dependencies, devDependencies }: iFormattedPackageContent): Promise<iResult> => {
+	}).then(({ dependencies, devDependencies, optionalDependencies }: iFormattedPackageContent): Promise<iResult> => {
 
 		return getExternalModulesFromDirectory(directoryToAnalyze).then((extractionResult: Array<iExtractionResult>): iResult => {
 
@@ -90,7 +93,7 @@ export default function usedDepsAnalyzer (packageFile: string, directoryToAnalyz
 				);
 
 				mergeResults(
-					checkMissingModules(extractionResult, dependencies, devDependencies, options),
+					checkMissingModules(extractionResult, dependencies, devDependencies, optionalDependencies, options),
 					result
 				);
 
