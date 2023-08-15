@@ -7,6 +7,16 @@
 	const { join } = require("node:path");
 	const { EOL } = require("node:os");
 
+	// externals
+
+	let colors = null;
+	try { // test require optional deps
+		colors = require("colors/safe");
+	}
+	catch (e) {
+		// nothing to do here
+	}
+
 	// locals
 	const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
 
@@ -97,7 +107,7 @@ Promise.resolve().then(() => {
 		if (analyse.result) {
 
 			analyse.warnings.forEach((warn) => {
-				(0, console).warn(warn);
+				(0, console).warn(colors ? colors.yellow(warn) : warn);
 			});
 
 			(0, process).exitCode = 0;
@@ -107,11 +117,11 @@ Promise.resolve().then(() => {
 		else {
 
 			analyse.warnings.forEach((warn) => {
-				(0, console).warn(warn);
+				(0, console).warn(colors ? colors.yellow(warn) : warn);
 			});
 
 			analyse.errors.forEach((err) => {
-				(0, console).error(err);
+				(0, console).error(colors ? colors.red(err) : err);
 			});
 
 			(0, process).exitCode = 2;
@@ -123,8 +133,10 @@ Promise.resolve().then(() => {
 
 }).catch((err) => {
 
+	const error = err.message ? err.message : err;
+
 	(0, console).log("");
-	(0, console).error(err.message ? err.message : err);
+	(0, console).error(colors ? colors.red(error) : error);
 
 	(0, process).exitCode = 1;
 	(0, process).exit(1);

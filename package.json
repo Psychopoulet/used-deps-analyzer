@@ -1,6 +1,7 @@
 {
+
   "name": "used-deps-analyzer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Analyse js code to force match between installed & used deps",
 
   "type": "commonjs",
@@ -38,26 +39,10 @@
     "/bin",
     "/lib"
   ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
 
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run-script tests"
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Psychopoulet/used-deps-analyzer.git"
-  },
-  "keywords": [
-    "js", "jsx", "ts", "tsx",
-    "deps",
-    "analyze"
-  ],
-  "author": "Sébastien VIDAL",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Psychopoulet/used-deps-analyzer/issues"
-  },
   "dependencies": {},
   "devDependencies": {
     "@types/node": "20.5.0",
@@ -69,8 +54,30 @@
     "nyc": "15.1.0",
     "typescript": "5.1.6"
   },
+  "optionalDependencies": {
+    "colors": "1.4.0"
+  },
+
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run-script tests"
+    }
+  },
+  "keywords": [
+    "js", "jsx", "ts", "tsx",
+    "deps",
+    "analyze"
+  ],
+  "author": "Sébastien VIDAL",
+  "license": "ISC",
+
   "homepage": "https://github.com/Psychopoulet/used-deps-analyzer#readme",
-  "engines": {
-    "node": ">=16.0.0"
+  "bugs": {
+    "url": "https://github.com/Psychopoulet/used-deps-analyzer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Psychopoulet/used-deps-analyzer.git"
   }
+
 }
