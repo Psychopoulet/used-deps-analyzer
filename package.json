@@ -1,7 +1,7 @@
 {
 
   "name": "used-deps-analyzer",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Analyse js code to force match between installed & used deps",
 
   "type": "commonjs",
@@ -46,7 +46,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/node": "20.5.0",
-    "check-version-modules": "1.3.5",
+    "check-version-modules": "1.4.0",
     "coveralls": "3.1.1",
     "eslint": "8.47.0",
     "husky": "8.0.3",
