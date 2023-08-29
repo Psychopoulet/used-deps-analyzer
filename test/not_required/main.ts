@@ -10,7 +10,7 @@
 
 export default function doNothing (): Promise<string> {
 
-	return readFile(join(__dirname, "node_modules", "dist", "jquery.min.js"), "utf-8").then((): Promise<string> => {
+	return readFile(join(__dirname, "node_modules", "jquery", "dist", "jquery.min.js"), "utf-8").then((): Promise<string> => {
 		return readFile("./node_modules/bootstrap/dist/js/bootstrap.min.js", "utf-8");
 	});
 

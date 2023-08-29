@@ -292,9 +292,9 @@ describe("valid running", () => {
 
 	});
 
-	it("should test not require", () => {
+	it("should test not required", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "not_require", "package.json"), join(__dirname, "not_require"), {
+		return usedDepsAnalyzer(join(__dirname, "not_required", "package.json"), join(__dirname, "not_required"), {
 			"noDev": true
 		}).then((result) => {
 
