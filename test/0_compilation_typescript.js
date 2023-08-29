@@ -7,6 +7,7 @@
 	const { exec } = require("node:child_process");
 	const { join } = require("node:path");
 	const { unlink } = require("node:fs/promises");
+	const { lstat } = require("node:fs");
 
 // consts
 
@@ -16,48 +17,71 @@
 
 describe("compilation typescript", () => {
 
-	describe("commonjs", () => {
+	const compilationSource = join(__dirname, "typescript", "compilation.cts");
+	const compilationTarget = join(__dirname, "typescript", "compilation.cjs");
 
-		after(() => {
-			return unlink(join(__dirname, "typescript", "compilation.cjs"));
-		});
+	before(() => {
 
-		it("should compile typescript file", () => {
+		return new Promise((resolve) => {
 
-			return new Promise((resolve, reject) => {
-
-				const args = [
-					"npx tsc",
-					join(__dirname, "typescript", "compilation.cts"),
-					"--target es6",
-					"--module commonjs"
-				];
-
-				exec(args.join(" "), {
-					"cwd": join(__dirname, ".."),
-					"windowsHide": true
-				}, (err) => {
-					return err ? reject(err) : resolve();
-				});
-
+			lstat(compilationTarget, (err, stats) => {
+				return resolve(Boolean(!err && stats.isFile()));
 			});
 
-		}).timeout(MAX_TIMEOUT);
+		}).then((exists) => {
+			return exists ? unlink(compilationTarget) : Promise.resolve();
+		});
 
-		it("should exec compiled typescript file", (done) => {
+	});
+
+	after(() => {
+
+		return new Promise((resolve) => {
+
+			lstat(compilationTarget, (err, stats) => {
+				return resolve(Boolean(!err && stats.isFile()));
+			});
+
+		}).then((exists) => {
+			return exists ? unlink(compilationTarget) : Promise.resolve();
+		});
+
+	});
+
+	it("should compile typescript file", () => {
+
+		return new Promise((resolve, reject) => {
 
 			const args = [
-				"node",
-				join(__dirname, "typescript", "compilation.cjs")
+				"npx tsc",
+				compilationSource,
+				"--target es6",
+				"--module commonjs"
 			];
 
 			exec(args.join(" "), {
 				"cwd": join(__dirname, ".."),
 				"windowsHide": true
 			}, (err) => {
-				return err ? done(err) : done();
+				return err ? reject(err) : resolve();
 			});
 
+		});
+
+	}).timeout(MAX_TIMEOUT);
+
+	it("should exec compiled typescript file", (done) => {
+
+		const args = [
+			"node",
+			compilationTarget
+		];
+
+		exec(args.join(" "), {
+			"cwd": join(__dirname, ".."),
+			"windowsHide": true
+		}, (err) => {
+			return err ? done(err) : done();
 		});
 
 	});
