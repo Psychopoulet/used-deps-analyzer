@@ -45,14 +45,14 @@
 
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "20.5.0",
-    "check-version-modules": "1.4.0",
+    "@types/node": "20.5.7",
+    "check-version-modules": "1.5.2",
     "coveralls": "3.1.1",
-    "eslint": "8.47.0",
+    "eslint": "8.48.0",
     "husky": "8.0.3",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   },
   "optionalDependencies": {
     "colors": "1.4.0"
