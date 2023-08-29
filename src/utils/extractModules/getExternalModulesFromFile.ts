@@ -30,6 +30,18 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 			)) {
 				lines.push(standardized);
 			}
+			else if (standardized.includes("\"node_modules\"")) {
+
+				const path: Array<string> = standardized.split(",");
+				const nodeModulesFoundAt: number = path.findIndex((data: string): boolean => {
+					return "\"node_modules\"" === data.trim();
+				});
+
+				if (-1 < nodeModulesFoundAt && path[nodeModulesFoundAt + 1]) {
+					lines.push(path[nodeModulesFoundAt + 1].trim().replace(/"/g, ""));
+				}
+
+			}
 
 		}).on("close", (): void => {
 			resolve(lines);
