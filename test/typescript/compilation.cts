@@ -38,6 +38,9 @@ usedDepsAnalyzer(packageFile, sourceDirectory).then((analyze): void => {
 
 	}
 
+	process.exitCode = 0;
+	process.exit(0);
+
 }).catch((err: Error): void => {
 
 	console.error(err);

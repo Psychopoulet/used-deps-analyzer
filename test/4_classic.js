@@ -292,4 +292,27 @@ describe("valid running", () => {
 
 	});
 
+	it("should test not required", () => {
+
+		return usedDepsAnalyzer(join(__dirname, "not_required", "package.json"), join(__dirname, "not_required"), {
+			"noDev": true
+		}).then((result) => {
+
+			strictEqual(typeof result, "object");
+
+				strictEqual(typeof result.result, "boolean");
+				strictEqual(result.result, true);
+
+				strictEqual(typeof result.warnings, "object");
+				strictEqual(result.warnings instanceof Array, true);
+				strictEqual(result.warnings.length, 0);
+
+				strictEqual(typeof result.errors, "object");
+				strictEqual(result.errors instanceof Array, true);
+				strictEqual(result.errors.length, 0);
+
+		});
+
+	});
+
 });

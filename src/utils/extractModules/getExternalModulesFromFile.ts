@@ -22,13 +22,44 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 
 			const standardized: string = line.trim().replace(/'/g, "\"").replace(/\\/g, "/");
 
+			// extract "require" modules (node)
 			if (standardized.includes("require(\"")) {
 				lines.push(standardized);
 			}
+
+			// extract "import" modules (TS)
 			else if (standardized.includes("import ") && (
 				(standardized.endsWith("\";") || standardized.endsWith("\");"))
 			)) {
 				lines.push(standardized);
+			}
+
+			// extract not required modules (read specific absolute file)
+			else if (standardized.includes("\"node_modules\"")) {
+
+				const path: Array<string> = standardized.split(",");
+				const nodeModulesFoundAt: number = path.findIndex((data: string): boolean => {
+					return "\"node_modules\"" === data.trim();
+				});
+
+				if (-1 < nodeModulesFoundAt && path[nodeModulesFoundAt + 1]) {
+					lines.push("require(\"" + path[nodeModulesFoundAt + 1].trim().replace(/"/g, "") + "\")");
+				}
+
+			}
+
+			// extract not required modules (read specific relative file)
+			else if (standardized.includes("node_modules/")) {
+
+				const path: Array<string> = standardized.split("/");
+				const nodeModulesFoundAt: number = path.findIndex((data: string): boolean => {
+					return "node_modules" === data.trim();
+				});
+
+				if (-1 < nodeModulesFoundAt && path[nodeModulesFoundAt + 1]) {
+					lines.push("require(\"" + path[nodeModulesFoundAt + 1].trim() + "\")");
+				}
+
 			}
 
 		}).on("close", (): void => {
@@ -38,6 +69,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 	// extract modules
 	}).then((lines: Array<string>): Array<string> => {
 
+		// remove useless path format
 		return lines.map((l: string): string => {
 
 			const reg: RegExp = l.includes("join(") ? /join\((.*)\)/ : /"(.*)"/;
@@ -46,8 +78,11 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 
 			return 1 < extract.length ? extract[1] : "";
 
+		// avoid empty strings
 		}).filter((m: string): boolean => {
+
 			return "" !== m;
+
 		}).map((m: string): string => {
 
 			let separator: "/" | "," | "" = "";
@@ -68,7 +103,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 					return "node_modules" === p;
 				});
 
-				if (-1 < findModulesDirAt && findModulesDirAt < parts.length) {
+				if (-1 < findModulesDirAt && parts[findModulesDirAt + 1]) {
 					return parts[findModulesDirAt + 1];
 				}
 				else {
