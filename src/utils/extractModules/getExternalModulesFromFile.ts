@@ -81,7 +81,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 		// avoid empty strings
 		}).filter((m: string): boolean => {
 
-			return "" !== m;
+			return "" !== m && (1 < m.length || /^[a-zA-Z]{1}$/.test(m));
 
 		}).map((m: string): string => {
 
