@@ -3,7 +3,7 @@
 // deps
 
 	// externals
-	import { join } from "node:path";
+	import { join } from "path";
 
 // module
 
