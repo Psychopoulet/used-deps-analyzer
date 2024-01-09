@@ -19,9 +19,11 @@
 
   "scripts": {
 
+		"prepare": "npx husky install",
+
     "build": "node ./removeOldBuild.js && npx tsc --project \"./tsconfig.json\"",
 
-    "lint": "npx eslint ./bin/*.js ./test/**/*.js",
+    "lint": "npx eslint --config .eslintrc-tests.js ./bin/*.js ./test/**/*.js && npx eslint --config .eslintrc-src.js --ext .cts,.ts ./src/**/*",
     "check-requires": "node ./bin/cmd.js \"./package.json\" \"./src\" --no-dev --overkill \"fs-extra\" \"node-promfs\" --misscalled \"{ \\\"module\\\": \\\"colors\\\", \\\"call\\\": \\\"colors/safe\\\" }\"",
     "check-updates": "npx check-version-modules",
     "unit-tests": "npm run build && npx nyc --reporter=html --reporter=text mocha",
@@ -48,7 +50,7 @@
     "@types/node": "20.5.7",
     "check-version-modules": "1.5.2",
     "coveralls": "3.1.1",
-    "eslint": "8.48.0",
+    "eslint-plugin-personnallinter": "git+ssh://git@github.com/Psychopoulet/eslint-plugin-personnallinter",
     "husky": "8.0.3",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
@@ -58,11 +60,12 @@
     "colors": "1.4.0"
   },
 
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run-script tests"
-    }
-  },
+	"husky": {
+	  "hooks": {
+		"pre-commit": "npm run-script lint",
+		"pre-push": "npm run-script unit-tests"
+	  }
+	},
   "keywords": [
     "js", "jsx", "ts", "tsx",
     "deps",
