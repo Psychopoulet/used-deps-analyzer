@@ -82,6 +82,7 @@ Promise.resolve().then(() => {
 						}
 
 					break;
+
 					case "--shadows":
 
 						options.shadows = [];
@@ -104,21 +105,17 @@ Promise.resolve().then(() => {
 
 	return errors.length ? Promise.reject(new Error(errors.join(EOL))) : usedDepsAnalyzer(ARGS[0], ARGS[1], options).then((analyse) => {
 
-		if (analyse.result) {
+		analyse.warnings.forEach((warn) => {
+			(0, console).warn(colors ? colors.yellow(warn) : warn);
+		});
 
-			analyse.warnings.forEach((warn) => {
-				(0, console).warn(colors ? colors.yellow(warn) : warn);
-			});
+		if (analyse.result) {
 
 			(0, process).exitCode = 0;
 			(0, process).exit(0);
 
 		}
 		else {
-
-			analyse.warnings.forEach((warn) => {
-				(0, console).warn(colors ? colors.yellow(warn) : warn);
-			});
 
 			analyse.errors.forEach((err) => {
 				(0, console).error(colors ? colors.red(err) : err);
