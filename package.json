@@ -21,7 +21,7 @@
 
 		"prepare": "npx husky install",
 
-    "build": "node ./removeOldBuild.js && npx tsc --project \"./tsconfig.json\"",
+    "build": "npx rimraf lib && npx tsc --project \"./tsconfig.json\"",
 
     "lint": "npx eslint --config .eslintrc-tests.js ./bin/*.js ./test/**/*.js && npx eslint --config .eslintrc-src.js --ext .cts,.ts ./src/**/*",
     "check-requires": "node ./bin/cmd.js \"./package.json\" \"./src\" --no-dev --overkill \"fs-extra\" \"node-promfs\" --misscalled \"{ \\\"module\\\": \\\"colors\\\", \\\"call\\\": \\\"colors/safe\\\" }\"",
@@ -54,6 +54,7 @@
     "husky": "8.0.3",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
+    "rimraf": "5.0.5",
     "typescript": "5.2.2"
   },
   "optionalDependencies": {
