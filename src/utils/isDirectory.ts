@@ -1,11 +1,11 @@
 // deps
 
     // natives
-    import { lstat, Stats } from "node:fs";
+    import { lstat, type Stats } from "node:fs";
 
 // module
 
-export default function isDirectory (directory: string): Promise<boolean> {
+export default async function isDirectory (directory: string): Promise<boolean> {
 
     return new Promise((resolve, reject) => {
 

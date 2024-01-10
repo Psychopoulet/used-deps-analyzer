@@ -14,19 +14,19 @@
 
 // types & interfaces
 
-    import { iExtractionResult } from "../../interfaces";
+    import type { iExtractionResult } from "../../interfaces";
 
 // private
 
     // methods
 
-        function _getExternalModulesFromFiles (files: Array<string>, result: Array<iExtractionResult> = []): Promise<Array<iExtractionResult>> {
+        function _getExternalModulesFromFiles (files: string[], result: iExtractionResult[] = []): Promise<iExtractionResult[]> {
 
             return !files.length ? Promise.resolve(result) : Promise.resolve().then((): Promise<void> => {
 
                 const file: string = files.shift() as string;
 
-                return getExternalModulesFromFile(file).then((modules: Array<string>): void => {
+                return getExternalModulesFromFile(file).then((modules: string[]): void => {
 
                     if (modules.length) {
 
@@ -40,7 +40,7 @@
                 });
 
             // loop
-            }).then((): Promise<Array<iExtractionResult>> => {
+            }).then((): Promise<iExtractionResult[]> => {
 
                 return _getExternalModulesFromFiles(files, result);
 
@@ -48,13 +48,13 @@
 
         }
 
-        function _getExternalModulesFromDirectories (directories: Array<string>, result: Array<iExtractionResult> = []): Promise<Array<iExtractionResult>> {
+        function _getExternalModulesFromDirectories (directories: string[], result: iExtractionResult[] = []): Promise<iExtractionResult[]> {
 
             return !directories.length ? Promise.resolve(result) : Promise.resolve().then((): Promise<void> => {
 
                 const directory: string = directories.shift() as string;
 
-                return _getExternalModulesFromDirectory(directory).then((directoryModules: Array<iExtractionResult>): void => {
+                return _getExternalModulesFromDirectory(directory).then((directoryModules: iExtractionResult[]): void => {
 
                     directoryModules.forEach((dm) => {
                         result.push(dm);
@@ -63,7 +63,7 @@
                 });
 
             // loop
-            }).then((): Promise<Array<iExtractionResult>> => {
+            }).then((): Promise<iExtractionResult[]> => {
 
                 return _getExternalModulesFromDirectories(directories, result);
 
@@ -71,14 +71,14 @@
 
         }
 
-        function _getExternalModulesFromDirectory (directory: string): Promise<Array<iExtractionResult>> {
+        function _getExternalModulesFromDirectory (directory: string): Promise<iExtractionResult[]> {
 
-            let result: Array<iExtractionResult> = [];
+            let result: iExtractionResult[] = [];
 
-            return readdir(directory).then((content: Array<string>): Promise<Array<iExtractionResult>> => {
+            return readdir(directory).then((content: readonly string[]): Promise<iExtractionResult[]> => {
 
-                const files: Array<string> = [];
-                const dirs: Array<string> = [];
+                const files: string[] = [];
+                const dirs: string[] = [];
 
                 return Promise.all(content.map((f: string): Promise<void> => {
 
@@ -105,7 +105,7 @@
 
                 })).then((): Promise<void> => {
 
-                    return _getExternalModulesFromFiles(files.filter(filterFiles)).then((filesModules: Array<iExtractionResult>): void => {
+                    return _getExternalModulesFromFiles(files.filter(filterFiles)).then((filesModules: readonly iExtractionResult[]): void => {
 
                         if (filesModules.length) {
                             result = [ ...result, ...filesModules ];
@@ -115,7 +115,7 @@
 
                 }).then((): Promise<void> => {
 
-                    return _getExternalModulesFromDirectories(dirs).then((directoriesModules: Array<iExtractionResult>): void => {
+                    return _getExternalModulesFromDirectories(dirs).then((directoriesModules: readonly iExtractionResult[]): void => {
 
                         if (directoriesModules.length) {
                             result = [ ...result, ...directoriesModules ];
@@ -123,7 +123,7 @@
 
                     });
 
-                }).then((): Promise<Array<iExtractionResult>> => {
+                }).then((): Promise<iExtractionResult[]> => {
 
                     return Promise.resolve(result);
 
@@ -135,7 +135,7 @@
 
 // module
 
-export default function getExternalModulesFromDirectory (directory: string): Promise<Array<iExtractionResult>> {
+export default function getExternalModulesFromDirectory (directory: string): Promise<iExtractionResult[]> {
 
     return _getExternalModulesFromDirectory(directory);
 

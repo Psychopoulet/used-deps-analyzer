@@ -6,12 +6,12 @@
 
 // module
 
-export default function getExternalModulesFromFile (file: string): Promise<Array<string>> {
+export default function getExternalModulesFromFile (file: string): Promise<string[]> {
 
     // extract "require" lines
-    return new Promise((resolve: (lines: Array<string>) => void): void => {
+    return new Promise((resolve: (lines: readonly string[]) => void): void => {
 
-        const lines: Array<string> = [];
+        const lines: string[] = [];
 
         readline.createInterface({
             "input": createReadStream(file, "utf-8"),
@@ -35,7 +35,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
             // extract not required modules (read specific absolute file)
             else if (standardized.includes("\"node_modules\"")) {
 
-                const path: Array<string> = standardized.split(",");
+                const path: string[] = standardized.split(",");
                 const nodeModulesFoundAt: number = path.findIndex((data: string): boolean => {
                     return "\"node_modules\"" === data.trim();
                 });
@@ -49,7 +49,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
             // extract not required modules (read specific relative file)
             else if (standardized.includes("node_modules/")) {
 
-                const path: Array<string> = standardized.split("/");
+                const path: string[] = standardized.split("/");
                 const nodeModulesFoundAt: number = path.findIndex((data: string): boolean => {
                     return "node_modules" === data.trim();
                 });
@@ -65,14 +65,14 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
         });
 
     // extract modules
-    }).then((lines: Array<string>): Array<string> => {
+    }).then((lines: readonly string[]): string[] => {
 
         // remove useless path format
         return lines.map((l: string): string => {
 
             const reg: RegExp = l.includes("join(") ? /join\((.*)\)/ : /"(.*)"/;
 
-            const extract: Array<string> = l.match(reg) || [ "" ];
+            const extract: string[] = l.match(reg) || [ "" ];
 
             return 1 < extract.length ? extract[1] : "";
 
@@ -93,7 +93,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
 
             if (separator) {
 
-                const parts: Array<string> = m.replace(/"/g, "").split(separator).map((s: string): string => {
+                const parts: string[] = m.replace(/"/g, "").split(separator).map((s: string): string => {
                     return s.trim();
                 });
 
@@ -116,7 +116,7 @@ export default function getExternalModulesFromFile (file: string): Promise<Array
         });
 
     // filters
-    }).then((modules: Array<string>): Promise<Array<string>> => {
+    }).then((modules: readonly string[]): Promise<string[]> => {
 
         return Promise.resolve(
 

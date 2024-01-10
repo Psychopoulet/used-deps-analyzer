@@ -20,4 +20,4 @@ export default [
     "v8", "vm",
     "wasi", "worker_threads",
     "zlib"
-]
+];

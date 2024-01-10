@@ -1,7 +1,7 @@
 // deps
 
     // natives
-    import { lstat, Stats } from "node:fs";
+    import { lstat, type Stats } from "node:fs";
 
 // module
 
