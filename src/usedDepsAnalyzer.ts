@@ -54,11 +54,16 @@ export default function usedDepsAnalyzer (
     }).then((exists: boolean): Promise<void> => {
         return exists ? Promise.resolve() : Promise.reject(new ReferenceError("Directory to analyse not found"));
     }).then((): Promise<void> => {
-        return !options || !options.noDev || !options.onlyDev ? Promise.resolve() : Promise.reject(new Error("\"noDev\" && \"onlyDev\" options are incompatible"));
+
+        const onlyDev: boolean = "object" === typeof options && "boolean" === typeof options.onlyDev && options.onlyDev;
+        const noDev: boolean = "object" === typeof options && "boolean" === typeof options.noDev && options.noDev;
+
+        return onlyDev && noDev ? Promise.resolve() : Promise.reject(new Error("\"noDev\" && \"onlyDev\" options are incompatible"));
+
     }).then((): Promise<iFormattedPackageContent> => {
 
         return readFile(packageFile, "utf-8").then((content: string): iExtractedPackageContent => {
-            return JSON.parse(content);
+            return JSON.parse(content) as iExtractedPackageContent;
         }).then(({
             dependencies,
             devDependencies,

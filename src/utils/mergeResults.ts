@@ -7,7 +7,7 @@
 
 export default function mergeResults (source: iResult, target: iResult): void {
 
-    target.result = target.result && source.result;
+    target.result &&= source.result;
 
     source.warnings.forEach((warning: string): void => {
         target.warnings.push(warning);

@@ -23,11 +23,11 @@ export default function checkUnusedModules (
 
         const misscalled: iSubModule[] = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
 
-        extractionResult.forEach((f: iExtractionResult): void => {
+        extractionResult.forEach((f: iExtractionResult): undefined => {
 
             f.modules.filter((m: string): boolean => {
                 return !natives.includes(m);
-            }).forEach((m: string): void => {
+            }).forEach((m: string): undefined => {
 
                 let originalModule: string = m;
 
@@ -43,7 +43,11 @@ export default function checkUnusedModules (
 
                 }
 
-                if (!dependencies.includes(originalModule) && !devDependencies.includes(originalModule) && !optionalDependencies.includes(originalModule)) {
+                if (
+                    !dependencies.includes(originalModule)
+                    && !devDependencies.includes(originalModule)
+                    && !optionalDependencies.includes(originalModule)
+                ) {
 
                     errors.push(
                         "[MISSING] The module \"" + originalModule + "\" used it the file \"" + f.file + "\" is not registered in package dependencies"

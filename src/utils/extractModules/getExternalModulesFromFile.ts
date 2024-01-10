@@ -9,14 +9,14 @@
 export default function getExternalModulesFromFile (file: string): Promise<string[]> {
 
     // extract "require" lines
-    return new Promise((resolve: (lines: readonly string[]) => void): void => {
+    return new Promise((resolve: (lines: readonly string[]) => void): undefined => {
 
         const lines: string[] = [];
 
         readline.createInterface({
             "input": createReadStream(file, "utf-8"),
             "crlfDelay": Infinity
-        }).on("line", (line: string): void => {
+        }).on("line", (line: string): undefined => {
 
             const standardized: string = line.trim().replace(/'/g, "\"").replace(/\\/g, "/");
 
@@ -27,7 +27,7 @@ export default function getExternalModulesFromFile (file: string): Promise<strin
 
             // extract "import" modules (TS)
             else if (standardized.includes("import ") && (
-                (standardized.endsWith("\";") || standardized.endsWith("\");"))
+                standardized.endsWith("\";") || standardized.endsWith("\");")
             )) {
                 lines.push(standardized);
             }
@@ -61,7 +61,7 @@ export default function getExternalModulesFromFile (file: string): Promise<strin
             }
 
         }).on("close", (): void => {
-            resolve(lines);
+            return resolve(lines);
         });
 
     // extract modules
@@ -72,7 +72,7 @@ export default function getExternalModulesFromFile (file: string): Promise<strin
 
             const reg: RegExp = l.includes("join(") ? /join\((.*)\)/ : /"(.*)"/;
 
-            const extract: string[] = l.match(reg) || [ "" ];
+            const extract: string[] = l.match(reg) ?? [ "" ];
 
             return 1 < extract.length ? extract[1] : "";
 
@@ -83,7 +83,7 @@ export default function getExternalModulesFromFile (file: string): Promise<strin
 
         }).map((m: string): string => {
 
-            let separator: "/" | "," | "" = "";
+            let separator: "" | "," | "/" = "";
             if (m.includes(",")) {
                 separator = ",";
             }

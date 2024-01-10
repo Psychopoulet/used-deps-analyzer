@@ -12,13 +12,15 @@ export default function checkNativesModules (
 
     const warnings: string[] = [];
 
-        if (options && options.overkill && "object" === typeof options.overkill && options.overkill instanceof Array && options.overkill.length) {
+        const overkill: string[] = options && "object" === typeof options.overkill && options.overkill instanceof Array ? options.overkill : [];
 
-            extractionResult.forEach((f: iExtractionResult): void => {
+        if (overkill.length) {
 
-                f.modules.forEach((m: string): void => {
+            extractionResult.forEach((f: iExtractionResult): undefined => {
 
-                    if ((options.overkill as string[]).map((o: string): string => {
+                f.modules.forEach((m: string): undefined => {
+
+                    if (overkill.map((o: string): string => {
                         return o.trim();
                     }).includes(m)) {
 

@@ -22,11 +22,11 @@
 
         function _getExternalModulesFromFiles (files: string[], result: iExtractionResult[] = []): Promise<iExtractionResult[]> {
 
-            return !files.length ? Promise.resolve(result) : Promise.resolve().then((): Promise<void> => {
+            return !files.length ? Promise.resolve(result) : Promise.resolve().then((): Promise<undefined> => {
 
                 const file: string = files.shift() as string;
 
-                return getExternalModulesFromFile(file).then((modules: string[]): void => {
+                return getExternalModulesFromFile(file).then((modules: string[]): undefined => {
 
                     if (modules.length) {
 
@@ -54,7 +54,7 @@
 
                 const directory: string = directories.shift() as string;
 
-                return _getExternalModulesFromDirectory(directory).then((directoryModules: iExtractionResult[]): void => {
+                return _getExternalModulesFromDirectory(directory).then((directoryModules: iExtractionResult[]): undefined => {
 
                     directoryModules.forEach((dm) => {
                         result.push(dm);
@@ -84,14 +84,18 @@
 
                     const item: string = join(directory, f);
 
-                    return isFile(item).then((isThisItemAFile: boolean): Promise<void> | void => {
+                    return isFile(item).then((isThisItemAFile: boolean): Promise<void> => {
 
                         if (isThisItemAFile) {
+
                             files.push(item);
+
+                            return Promise.resolve();
+
                         }
                         else {
 
-                            return isDirectory(item).then((isThisItemADirectory: boolean): void => {
+                            return isDirectory(item).then((isThisItemADirectory: boolean): undefined => {
 
                                 if (isThisItemADirectory) {
                                     dirs.push(item);
@@ -105,7 +109,7 @@
 
                 })).then((): Promise<void> => {
 
-                    return _getExternalModulesFromFiles(files.filter(filterFiles)).then((filesModules: readonly iExtractionResult[]): void => {
+                    return _getExternalModulesFromFiles(files.filter(filterFiles)).then((filesModules: readonly iExtractionResult[]): undefined => {
 
                         if (filesModules.length) {
                             result = [ ...result, ...filesModules ];
@@ -115,7 +119,7 @@
 
                 }).then((): Promise<void> => {
 
-                    return _getExternalModulesFromDirectories(dirs).then((directoriesModules: readonly iExtractionResult[]): void => {
+                    return _getExternalModulesFromDirectories(dirs).then((directoriesModules: readonly iExtractionResult[]): undefined => {
 
                         if (directoriesModules.length) {
                             result = [ ...result, ...directoriesModules ];

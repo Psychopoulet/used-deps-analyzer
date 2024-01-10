@@ -101,9 +101,9 @@ Promise.resolve().then(() => {
 
         });
 
-    return errors.length ?
-        Promise.reject(new Error(errors.join(EOL))) :
-        usedDepsAnalyzer(ARGS[0], ARGS[1], options).then((analyse) => {
+    return errors.length
+        ? Promise.reject(new Error(errors.join(EOL)))
+        : usedDepsAnalyzer(ARGS[0], ARGS[1], options).then((analyse) => {
 
         analyse.warnings.forEach((warn) => {
             (0, console).warn(colors ? colors.yellow(warn) : warn);
