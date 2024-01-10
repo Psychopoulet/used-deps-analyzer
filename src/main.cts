@@ -1,9 +1,7 @@
-"use strict";
-
 // deps
 
-	// locals
-	import usedDepsAnalyzer from "./usedDepsAnalyzer";
+    // locals
+    import usedDepsAnalyzer from "./usedDepsAnalyzer";
 
 // module
 

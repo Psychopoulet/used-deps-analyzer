@@ -1,42 +1,43 @@
-"use strict";
+// deps
+
+    // locals
+    import natives from "./natives";
 
 // types & interfaces
 
-	// locals
-
-	import { iExtractionResult, iResult } from "../../interfaces";
-	import natives from "./natives";
+    // locals
+    import type { iExtractionResult, iResult } from "../../interfaces";
 
 // module
 
-export default function checkNativesModules (extractionResult: Array<iExtractionResult>): iResult {
+export default function checkNativesModules (extractionResult: readonly iExtractionResult[]): iResult {
 
-	const warnings: Array<string> = [];
+    const warnings: string[] = [];
 
-		extractionResult.forEach((f: iExtractionResult): void => {
+        extractionResult.forEach((f: iExtractionResult): void => {
 
-			const notRewritten: Array<string> = f.modules.filter((m: string): boolean => {
-				return natives.includes(m);
-			});
+            const notRewritten: string[] = f.modules.filter((m: string): boolean => {
+                return natives.includes(m);
+            });
 
-			if (notRewritten.length) {
+            if (notRewritten.length) {
 
-				notRewritten.forEach((m: string): void => {
+                notRewritten.forEach((m: string): void => {
 
-					warnings.push(
-						"[NATIVE] The module \"" + m + "\" used it the file \"" + f.file + "\" does not have the valid syntax. Please use \"node:\" as prefix"
-					);
+                    warnings.push(
+                        "[NATIVE] The module \"" + m + "\" used it the file \"" + f.file + "\" does not have the valid syntax. Please use \"node:\" as prefix"
+                    );
 
-				});
+                });
 
-			}
+            }
 
-		});
+        });
 
-	return {
-		"result": true,
-		"warnings": warnings,
-		"errors": []
-	};
+    return {
+        "result": true,
+        "warnings": warnings,
+        "errors": []
+    };
 
-};
+}

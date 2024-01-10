@@ -1,28 +1,23 @@
-
-"use strict";
-
-// types & interfaces
-
 export interface iSubModule {
-	"module": string;
-	"call": string;
-};
+    "module": string;
+    "call": string;
+}
 
 export interface iOptions {
-	"noDev"?: boolean;
-	"onlyDev"?: boolean;
-	"overkill"?: Array<string>;
-	"misscalled"?: Array<iSubModule>;
-	"shadows": Array<string>;
-};
+    "noDev"?: boolean;
+    "onlyDev"?: boolean;
+    "overkill"?: string[];
+    "misscalled"?: iSubModule[];
+    "shadows": string[];
+}
 
 export interface iExtractionResult {
-	"file": string;
-	"modules": Array<string>;
-};
+    "file": string;
+    "modules": string[];
+}
 
 export interface iResult {
-	"result": boolean;
-	"warnings": Array<string>;
-	"errors": Array<string>;
-};
+    "result": boolean;
+    "warnings": string[];
+    "errors": string[];
+}
