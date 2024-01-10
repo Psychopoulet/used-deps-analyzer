@@ -5,22 +5,22 @@
 
 // module
 
-export default async function isDirectory (directory: string): Promise<boolean> {
+export default function isDirectory (directory: string): Promise<boolean> {
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (result: boolean) => void, reject: (err: Error) => void): void => {
 
         if ("undefined" === typeof directory) {
-            reject(new ReferenceError("missing \"directory\" argument"));
+            return reject(new ReferenceError("missing \"directory\" argument"));
         }
             else if ("string" !== typeof directory) {
-                reject(new TypeError("\"directory\" argument is not a string"));
+                return reject(new TypeError("\"directory\" argument is not a string"));
             }
             else if ("" === directory.trim()) {
-                reject(new Error("\"directory\" argument is empty"));
+                return reject(new Error("\"directory\" argument is empty"));
             }
         else {
 
-            lstat(directory, (err: Error | null, stats: Stats): void => {
+            return lstat(directory, (err: Error | null, stats: Stats): void => {
                 return resolve(Boolean(!err && stats.isDirectory()));
             });
 

@@ -7,20 +7,20 @@
 
 export default function isFile (file: string): Promise<boolean> {
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (result: boolean) => void, reject: (err: Error) => void): void => {
 
         if ("undefined" === typeof file) {
-            reject(new ReferenceError("missing \"file\" argument"));
+            return reject(new ReferenceError("missing \"file\" argument"));
         }
             else if ("string" !== typeof file) {
-                reject(new TypeError("\"file\" argument is not a string"));
+                return reject(new TypeError("\"file\" argument is not a string"));
             }
             else if ("" === file.trim()) {
-                reject(new Error("\"file\" argument is empty"));
+                return reject(new Error("\"file\" argument is empty"));
             }
         else {
 
-            lstat(file, (err: Error | null, stats: Stats): void => {
+            return lstat(file, (err: Error | null, stats: Stats): void => {
                 return resolve(Boolean(!err && stats.isFile()));
             });
 

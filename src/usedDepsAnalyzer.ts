@@ -41,21 +41,21 @@
 
 // module
 
-export default async function usedDepsAnalyzer (
+export default function usedDepsAnalyzer (
     packageFile: string,
     directoryToAnalyze: string,
     options?: iOptions
 ): Promise<iResult> {
 
-    return isFile(packageFile).then(async (exists: boolean): Promise<void> => {
+    return isFile(packageFile).then((exists: boolean): Promise<void> => {
         return exists ? Promise.resolve() : Promise.reject(new ReferenceError("Package file not found"));
-    }).then(async (): Promise<boolean> => {
+    }).then((): Promise<boolean> => {
         return isDirectory(directoryToAnalyze);
-    }).then(async (exists: boolean): Promise<void> => {
+    }).then((exists: boolean): Promise<void> => {
         return exists ? Promise.resolve() : Promise.reject(new ReferenceError("Directory to analyse not found"));
-    }).then(async (): Promise<void> => {
+    }).then((): Promise<void> => {
         return !options || !options.noDev || !options.onlyDev ? Promise.resolve() : Promise.reject(new Error("\"noDev\" && \"onlyDev\" options are incompatible"));
-    }).then(async (): Promise<iFormattedPackageContent> => {
+    }).then((): Promise<iFormattedPackageContent> => {
 
         return readFile(packageFile, "utf-8").then((content: string): iExtractedPackageContent => {
             return JSON.parse(content);
@@ -73,7 +73,7 @@ export default async function usedDepsAnalyzer (
 
         });
 
-    }).then(async ({ dependencies, devDependencies, optionalDependencies }: iFormattedPackageContent): Promise<iResult> => {
+    }).then(({ dependencies, devDependencies, optionalDependencies }: iFormattedPackageContent): Promise<iResult> => {
 
         return getExternalModulesFromDirectory(directoryToAnalyze).then((extractionResult: readonly iExtractionResult[]): iResult => {
 
