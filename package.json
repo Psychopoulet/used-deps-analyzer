@@ -21,12 +21,13 @@
 
 		"prepare": "npx husky install",
 
-    "build": "npx rimraf lib && npx tsc --project \"./tsconfig.json\"",
+    "clean": "npx rimraf lib/*",
+    "build": "npm run-script clean && npx tsc --project \"./tsconfig.json\"",
 
     "lint": "npx eslint --config .eslintrc-src.js --ext .cts,.ts ./src/**/* && npx eslint --config .eslintrc-tests.js ./bin/*.js ./test/**/*.js",
     "check-requires": "node ./bin/cmd.js \"./package.json\" \"./src\" --no-dev --overkill \"fs-extra\" \"node-promfs\" --misscalled \"{ \\\"module\\\": \\\"colors\\\", \\\"call\\\": \\\"colors/safe\\\" }\"",
     "check-updates": "npx check-version-modules",
-    "unit-tests": "npm run build && npx nyc --reporter=html --reporter=text mocha",
+    "unit-tests": "npm run-script build && npx nyc --reporter=html --reporter=text mocha",
 
     "tests": "npm run-script lint && npm run check-requires && npm run-script check-updates && npm run-script unit-tests",
     "ci": "npm run-script tests && npx nyc report --reporter=text-lcov | coveralls"
