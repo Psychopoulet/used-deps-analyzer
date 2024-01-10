@@ -58,7 +58,7 @@ export default function usedDepsAnalyzer (
         const onlyDev: boolean = "object" === typeof options && "boolean" === typeof options.onlyDev && options.onlyDev;
         const noDev: boolean = "object" === typeof options && "boolean" === typeof options.noDev && options.noDev;
 
-        return onlyDev && noDev ? Promise.resolve() : Promise.reject(new Error("\"noDev\" && \"onlyDev\" options are incompatible"));
+        return onlyDev && noDev ? Promise.reject(new Error("\"noDev\" && \"onlyDev\" options are incompatible")) : Promise.resolve();
 
     }).then((): Promise<iFormattedPackageContent> => {
 
