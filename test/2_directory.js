@@ -1,63 +1,63 @@
 // deps
 
-	// natives
-	const { join } = require("node:path");
-	const { strictEqual } = require("node:assert");
+    // natives
+    const { join } = require("node:path");
+    const { strictEqual } = require("node:assert");
 
-	// locals
-	const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
+    // locals
+    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
 
 // consts
 
-	const packageFile = join(__dirname, "..", "package.json");
+    const packageFile = join(__dirname, "..", "package.json");
 
 // tests
 
 describe("directory", () => {
 
-	it("should test missing directory", (done) => {
+    it("should test missing directory", (done) => {
 
-		usedDepsAnalyzer(packageFile).then(() => {
-			done(new Error("No error generated"));
-		}).catch((err) => {
+        usedDepsAnalyzer(packageFile).then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
 
-			strictEqual(typeof err, "object");
-			strictEqual(err instanceof ReferenceError, true);
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof ReferenceError, true);
 
-			done();
+            done();
 
-		});
+        });
 
-	});
+    });
 
-	it("should test wrong type directory", (done) => {
+    it("should test wrong type directory", (done) => {
 
-		usedDepsAnalyzer(packageFile, false).then(() => {
-			done(new Error("No error generated"));
-		}).catch((err) => {
+        usedDepsAnalyzer(packageFile, false).then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
 
-			strictEqual(typeof err, "object");
-			strictEqual(err instanceof TypeError, true);
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof TypeError, true);
 
-			done();
+            done();
 
-		});
+        });
 
-	});
+    });
 
-	it("should test empty directory", (done) => {
+    it("should test empty directory", (done) => {
 
-		usedDepsAnalyzer(packageFile, "").then(() => {
-			done(new Error("No error generated"));
-		}).catch((err) => {
+        usedDepsAnalyzer(packageFile, "").then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
 
-			strictEqual(typeof err, "object");
-			strictEqual(err instanceof Error, true);
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof Error, true);
 
-			done();
+            done();
 
-		});
+        });
 
-	});
+    });
 
 });
