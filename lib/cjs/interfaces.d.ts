@@ -5,16 +5,16 @@ export interface iSubModule {
 export interface iOptions {
     "noDev"?: boolean;
     "onlyDev"?: boolean;
-    "overkill"?: Array<string>;
-    "misscalled"?: Array<iSubModule>;
-    "shadows": Array<string>;
+    "overkill"?: string[];
+    "misscalled"?: iSubModule[];
+    "shadows": string[];
 }
 export interface iExtractionResult {
     "file": string;
-    "modules": Array<string>;
+    "modules": string[];
 }
 export interface iResult {
     "result": boolean;
-    "warnings": Array<string>;
-    "errors": Array<string>;
+    "warnings": string[];
+    "errors": string[];
 }
