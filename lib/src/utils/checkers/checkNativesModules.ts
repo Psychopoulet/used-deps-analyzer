@@ -14,7 +14,7 @@ export default function checkNativesModules (extractionResult: readonly iExtract
 
     const warnings: string[] = [];
 
-        extractionResult.forEach((f: iExtractionResult): undefined => {
+        extractionResult.forEach((f: iExtractionResult): void => {
 
             const notRewritten: string[] = f.modules.filter((m: string): boolean => {
                 return natives.includes(m);
@@ -22,7 +22,7 @@ export default function checkNativesModules (extractionResult: readonly iExtract
 
             if (notRewritten.length) {
 
-                notRewritten.forEach((m: string): undefined => {
+                notRewritten.forEach((m: string): void => {
 
                     warnings.push(
                         "[NATIVE] The module \"" + m + "\" used in the file \"" + f.file + "\" does not have the valid syntax. Please use \"node:\" as prefix"

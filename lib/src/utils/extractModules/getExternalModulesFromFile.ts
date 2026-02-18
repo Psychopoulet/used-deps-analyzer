@@ -9,14 +9,14 @@
 export default function getExternalModulesFromFile (file: string): Promise<string[]> {
 
     // extract "require" lines
-    return new Promise((resolve: (lines: readonly string[]) => void): undefined => {
+    return new Promise((resolve: (lines: readonly string[]) => void): void => {
 
         const lines: string[] = [];
 
         readline.createInterface({
             "input": createReadStream(file, "utf-8"),
             "crlfDelay": Infinity
-        }).on("line", (line: string): undefined => {
+        }).on("line", (line: string): void => {
 
             const standardized: string = line.trim().replace(/'/g, "\"").replace(/\\/g, "/");
 

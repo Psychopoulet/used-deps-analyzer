@@ -16,9 +16,9 @@ export default function checkOverkillModules (
 
         if (overkill.length) {
 
-            extractionResult.forEach((f: iExtractionResult): undefined => {
+            extractionResult.forEach((f: iExtractionResult): void => {
 
-                f.modules.forEach((m: string): undefined => {
+                f.modules.forEach((m: string): void => {
 
                     if (overkill.map((o: string): string => {
                         return o.trim();

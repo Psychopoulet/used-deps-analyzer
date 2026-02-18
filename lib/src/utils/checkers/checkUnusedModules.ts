@@ -19,7 +19,7 @@ export default function checkUnusedModules (
 
             const misscalled: iSubModule[] = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
 
-            extractionResult.forEach((f: iExtractionResult): undefined => {
+            extractionResult.forEach((f: iExtractionResult): void => {
 
                 usedDeps = [
 
@@ -54,7 +54,7 @@ export default function checkUnusedModules (
 
         if ("object" !== typeof options || "boolean" !== typeof options.onlyDev || !options.onlyDev) {
 
-            dependencies.forEach((dep: string): undefined => {
+            dependencies.forEach((dep: string): void => {
 
                 if (!usedDeps.includes(dep) && !shadows.includes(dep)) {
 
@@ -72,7 +72,7 @@ export default function checkUnusedModules (
 
         if ("object" !== typeof options || "boolean" !== typeof options.noDev || !options.noDev) {
 
-            devDependencies.forEach((dep: string): undefined => {
+            devDependencies.forEach((dep: string): void => {
 
                 if (!usedDeps.includes(dep) && !shadows.includes(dep)) {
 

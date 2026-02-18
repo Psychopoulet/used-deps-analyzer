@@ -20,52 +20,40 @@
 
     // methods
 
-        function _getExternalModulesFromFiles (files: string[], result: iExtractionResult[] = []): Promise<iExtractionResult[]> {
+        function _getExternalModulesFromFiles (files: string[]): Promise<iExtractionResult[]> {
 
-            return !files.length ? Promise.resolve(result) : Promise.resolve().then((): Promise<undefined> => {
+            return Promise.all(files.map((file: string): Promise<iExtractionResult> => {
 
-                const file: string = files.shift() as string;
+                return getExternalModulesFromFile(file).then((modules: string[]): iExtractionResult => {
 
-                return getExternalModulesFromFile(file).then((modules: string[]): undefined => {
-
-                    if (modules.length) {
-
-                        result.push({
-                            "file": file,
-                            "modules": modules
-                        });
-
-                    }
+                    return {
+                        "file": file,
+                        "modules": modules
+                    };
 
                 });
 
-            // loop
-            }).then((): Promise<iExtractionResult[]> => {
-
-                return _getExternalModulesFromFiles(files, result);
-
-            });
+            }));
 
         }
 
-        function _getExternalModulesFromDirectories (directories: string[], result: iExtractionResult[] = []): Promise<iExtractionResult[]> {
+        function _getExternalModulesFromDirectories (directories: string[]): Promise<iExtractionResult[]> {
 
-            return !directories.length ? Promise.resolve(result) : Promise.resolve().then((): Promise<void> => {
+            const result: iExtractionResult[] = [];
 
-                const directory: string = directories.shift() as string;
+            return Promise.all(directories.map((directory: string): Promise<void> => {
 
-                return _getExternalModulesFromDirectory(directory).then((directoryModules: iExtractionResult[]): undefined => {
+                return _getExternalModulesFromDirectory(directory).then((directoryModules: iExtractionResult[]): void => {
 
-                    directoryModules.forEach((dm) => {
+                    directoryModules.forEach((dm: iExtractionResult): void => {
                         result.push(dm);
                     });
 
                 });
 
-            // loop
-            }).then((): Promise<iExtractionResult[]> => {
+            })).then((): Promise<iExtractionResult[]> => {
 
-                return _getExternalModulesFromDirectories(directories, result);
+                return Promise.resolve(result);
 
             });
 
@@ -95,7 +83,7 @@
                         }
                         else {
 
-                            return isDirectory(item).then((isThisItemADirectory: boolean): undefined => {
+                            return isDirectory(item).then((isThisItemADirectory: boolean): void => {
 
                                 if (isThisItemADirectory) {
                                     dirs.push(item);
@@ -109,7 +97,7 @@
 
                 })).then((): Promise<void> => {
 
-                    return _getExternalModulesFromFiles(files.filter(filterFiles)).then((filesModules: readonly iExtractionResult[]): undefined => {
+                    return _getExternalModulesFromFiles(files.filter(filterFiles)).then((filesModules: readonly iExtractionResult[]): void => {
 
                         if (filesModules.length) {
                             result = [ ...result, ...filesModules ];
@@ -119,7 +107,7 @@
 
                 }).then((): Promise<void> => {
 
-                    return _getExternalModulesFromDirectories(dirs).then((directoriesModules: readonly iExtractionResult[]): undefined => {
+                    return _getExternalModulesFromDirectories(dirs).then((directoriesModules: readonly iExtractionResult[]): void => {
 
                         if (directoriesModules.length) {
                             result = [ ...result, ...directoriesModules ];

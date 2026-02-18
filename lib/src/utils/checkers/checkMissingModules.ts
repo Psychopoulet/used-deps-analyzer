@@ -23,11 +23,11 @@ export default function checkMissingModules (
 
         const misscalled: iSubModule[] = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
 
-        extractionResult.forEach((f: iExtractionResult): undefined => {
+        extractionResult.forEach((f: iExtractionResult): void => {
 
             f.modules.filter((m: string): boolean => {
                 return !natives.includes(m);
-            }).forEach((m: string): undefined => {
+            }).forEach((m: string): void => {
 
                 let originalModule: string = m;
 
