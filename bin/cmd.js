@@ -51,7 +51,7 @@ Promise.resolve().then(() => {
                         options.noDev = true;
                     break;
                     case "--only-dev":
-                        options.onlyDev = false;
+                        options.onlyDev = true;
                     break;
 
                     case "--overkill":
