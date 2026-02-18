@@ -50,7 +50,7 @@ export default function checkUnusedModules (
                 ) {
 
                     errors.push(
-                        "[MISSING] The module \"" + originalModule + "\" used it the file \"" + f.file + "\" is not registered in package dependencies"
+                        "[MISSING] The module \"" + originalModule + "\" used in the file \"" + f.file + "\" is not registered in package dependencies"
                     );
 
                     result = false;

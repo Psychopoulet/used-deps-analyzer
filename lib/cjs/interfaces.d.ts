@@ -7,7 +7,7 @@ export interface iOptions {
     "onlyDev"?: boolean;
     "overkill"?: string[];
     "misscalled"?: iSubModule[];
-    "shadows": string[];
+    "shadows"?: string[];
 }
 export interface iExtractionResult {
     "file": string;

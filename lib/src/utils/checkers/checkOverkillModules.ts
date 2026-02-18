@@ -25,7 +25,7 @@ export default function checkNativesModules (
                     }).includes(m)) {
 
                         warnings.push(
-                            "[OVERKILL] The module \"" + m + "\" used it the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
+                            "[OVERKILL] The module \"" + m + "\" used in the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
                         );
 
                     }
