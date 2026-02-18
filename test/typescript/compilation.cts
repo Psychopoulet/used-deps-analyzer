@@ -13,7 +13,7 @@
 // consts
 
 	const packageFile: string = join(__dirname, "..", "..", "package.json");
-	const sourceDirectory: string = join(__dirname, "..", "..", "src");
+	const sourceDirectory: string = join(__dirname, "..", "..", "lib", "src");
 
 // module
 

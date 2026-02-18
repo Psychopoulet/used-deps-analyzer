@@ -53,7 +53,8 @@ describe("compilation typescript", () => {
                 "npx tsc",
                 compilationSource,
                 "--target es6",
-                "--module commonjs"
+                "--module commonjs",
+                "--esModuleInterop"
             ];
 
             exec(args.join(" "), {
@@ -81,6 +82,6 @@ describe("compilation typescript", () => {
             return err ? done(err) : done();
         });
 
-    });
+    }).timeout(MAX_TIMEOUT);
 
 });

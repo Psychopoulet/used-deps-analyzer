@@ -10,7 +10,7 @@
 // consts
 
     const packageFile = join(__dirname, "..", "package.json");
-    const sourceDirectory = join(__dirname, "..", "src");
+    const sourceDirectory = join(__dirname, "..", "lib", "src");
 
 // tests
 
