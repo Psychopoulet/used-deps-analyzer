@@ -5,7 +5,7 @@
 
 // module
 
-export default function checkNativesModules (
+export default function checkOverkillModules (
     extractionResult: readonly iExtractionResult[],
     options?: iOptions
 ): iResult {

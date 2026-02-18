@@ -10,7 +10,7 @@
 
 // module
 
-export default function checkUnusedModules (
+export default function checkMissingModules (
     extractionResult: readonly iExtractionResult[],
     dependencies: readonly string[],
     devDependencies: readonly string[],
