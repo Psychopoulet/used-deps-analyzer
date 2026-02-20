@@ -15,40 +15,35 @@ export default function checkUnusedModules (
     let result = true;
     const errors: string[] = [];
 
-        let usedDeps: string[] = [];
+        const usedDepsSet: Set<string> = new Set<string>();
 
             const misscalled: iSubModule[] = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
 
             extractionResult.forEach((f: iExtractionResult): void => {
 
-                usedDeps = [
+                f.modules.map((m: string): string => {
 
-                    ...usedDeps,
+                    let originalModule: string = m;
 
-                    ...f.modules.map((m: string): string => {
+                        if (misscalled.length) {
 
-                        let originalModule: string = m;
+                            const converter: iSubModule | undefined = misscalled.find((submodule: iSubModule): boolean => {
+                                return m === submodule.call;
+                            });
 
-                            if (misscalled.length) {
-
-                                const converter: iSubModule | undefined = misscalled.find((submodule: iSubModule): boolean => {
-                                    return m === submodule.call;
-                                });
-
-                                if (converter) {
-                                    originalModule = converter.module;
-                                }
-
+                            if (converter) {
+                                originalModule = converter.module;
                             }
 
-                        return originalModule;
+                        }
 
-                    })
-                ];
+                    return originalModule;
+
+                }).forEach((m: string): void => {
+                    usedDepsSet.add(m);
+                });
 
             });
-
-        usedDeps = [ ...new Set(usedDeps) ];
 
         const shadows: string[] = options && "object" === typeof options.shadows && options.shadows instanceof Array ? options.shadows : [];
 
@@ -56,7 +51,7 @@ export default function checkUnusedModules (
 
             dependencies.forEach((dep: string): void => {
 
-                if (!usedDeps.includes(dep) && !shadows.includes(dep)) {
+                if (!usedDepsSet.has(dep) && !shadows.includes(dep)) {
 
                     errors.push(
                         "[UNUSED] The installed module \"" + dep + "\" is not used in code"
@@ -74,7 +69,7 @@ export default function checkUnusedModules (
 
             devDependencies.forEach((dep: string): void => {
 
-                if (!usedDeps.includes(dep) && !shadows.includes(dep)) {
+                if (!usedDepsSet.has(dep) && !shadows.includes(dep)) {
 
                     errors.push(
                         "[UNUSED - DEV] The installed module \"" + dep + "\" is not used in code"
