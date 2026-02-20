@@ -94,7 +94,7 @@ usedDepsAnalyzer("./package.json", "./src", {
 ## Tests
 
 ```bash
-$ npm run-script tests
+$ npm run tests
 ```
 
 ## License
