@@ -18,15 +18,20 @@ export default function checkMissingModules (
     options?: iOptions
 ): iResult {
 
+    const nativesSet: Set<string> = new Set(natives);
+    const depsSet: Set<string> = new Set(dependencies);
+    const devDepsSet: Set<string> = new Set(devDependencies);
+    const optionalDepsSet: Set<string> = new Set(optionalDependencies);
+
     let result = true;
     const errors: string[] = [];
 
-        const misscalled: iSubModule[] = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
+        const misscalled: iSubModule[] = options?.misscalled instanceof Array ? options.misscalled : [];
 
         extractionResult.forEach((f: iExtractionResult): void => {
 
             f.modules.filter((m: string): boolean => {
-                return !natives.includes(m);
+                return !nativesSet.has(m);
             }).forEach((m: string): void => {
 
                 let originalModule: string = m;
@@ -44,9 +49,9 @@ export default function checkMissingModules (
                 }
 
                 if (
-                    !dependencies.includes(originalModule)
-                    && !devDependencies.includes(originalModule)
-                    && !optionalDependencies.includes(originalModule)
+                    !depsSet.has(originalModule)
+                    && !devDepsSet.has(originalModule)
+                    && !optionalDepsSet.has(originalModule)
                 ) {
 
                     errors.push(

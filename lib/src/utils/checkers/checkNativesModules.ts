@@ -12,12 +12,14 @@
 
 export default function checkNativesModules (extractionResult: readonly iExtractionResult[]): iResult {
 
+    const nativesSet: Set<string> = new Set(natives);
+
     const warnings: string[] = [];
 
         extractionResult.forEach((f: iExtractionResult): void => {
 
             const notRewritten: string[] = f.modules.filter((m: string): boolean => {
-                return natives.includes(m);
+                return nativesSet.has(m);
             });
 
             if (notRewritten.length) {

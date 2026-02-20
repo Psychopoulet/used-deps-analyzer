@@ -17,7 +17,7 @@ export default function checkUnusedModules (
 
         const usedDepsSet: Set<string> = new Set<string>();
 
-            const misscalled: iSubModule[] = options && "object" === typeof options.misscalled && options.misscalled instanceof Array ? options.misscalled : [];
+            const misscalled: iSubModule[] = options?.misscalled instanceof Array ? options.misscalled : [];
 
             extractionResult.forEach((f: iExtractionResult): void => {
 
@@ -45,13 +45,15 @@ export default function checkUnusedModules (
 
             });
 
-        const shadows: string[] = options && "object" === typeof options.shadows && options.shadows instanceof Array ? options.shadows : [];
+        const shadowsSet: Set<string> = new Set(
+            options?.shadows instanceof Array ? options.shadows : []
+        );
 
         if ("object" !== typeof options || "boolean" !== typeof options.onlyDev || !options.onlyDev) {
 
             dependencies.forEach((dep: string): void => {
 
-                if (!usedDepsSet.has(dep) && !shadows.includes(dep)) {
+                if (!usedDepsSet.has(dep) && !shadowsSet.has(dep)) {
 
                     errors.push(
                         "[UNUSED] The installed module \"" + dep + "\" is not used in code"
@@ -69,7 +71,7 @@ export default function checkUnusedModules (
 
             devDependencies.forEach((dep: string): void => {
 
-                if (!usedDepsSet.has(dep) && !shadows.includes(dep)) {
+                if (!usedDepsSet.has(dep) && !shadowsSet.has(dep)) {
 
                     errors.push(
                         "[UNUSED - DEV] The installed module \"" + dep + "\" is not used in code"

@@ -12,17 +12,19 @@ export default function checkOverkillModules (
 
     const warnings: string[] = [];
 
-        const overkill: string[] = options && "object" === typeof options.overkill && options.overkill instanceof Array ? options.overkill : [];
+        const overkillSet: Set<string> = new Set(
+            (options?.overkill instanceof Array ? options.overkill : []).map((o: string): string => {
+                return o.trim();
+            })
+        );
 
-        if (overkill.length) {
+        if (overkillSet.size) {
 
             extractionResult.forEach((f: iExtractionResult): void => {
 
                 f.modules.forEach((m: string): void => {
 
-                    if (overkill.map((o: string): string => {
-                        return o.trim();
-                    }).includes(m)) {
+                    if (overkillSet.has(m)) {
 
                         warnings.push(
                             "[OVERKILL] The module \"" + m + "\" used in the file \"" + f.file + "\" may be overkill. You should try to find an alternative."
