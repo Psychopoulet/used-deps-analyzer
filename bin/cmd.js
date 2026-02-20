@@ -71,7 +71,16 @@ Promise.resolve().then(() => {
                         for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
 
                             try {
-                                options.misscalled.push(JSON.parse(ARGS[j]));
+
+                                const parsed = JSON.parse(ARGS[j]);
+
+                                if ("object" !== typeof parsed || null === parsed || "string" !== typeof parsed.module || "string" !== typeof parsed.call) {
+                                    errors.push("Invalid --misscalled \"" + String(ARGS[j]) + "\" : object must have \"module\" and \"call\" string properties");
+                                }
+                                else {
+                                    options.misscalled.push(parsed);
+                                }
+
                             }
                             catch (e) {
                                 errors.push("Malformed \"" + String(ARGS[j]) + "\" argument");
