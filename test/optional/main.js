@@ -1,19 +1,17 @@
-"use strict";
-
 // deps
 
-	// externals
+    // externals
 
-	let colors = null;
-	try {
-		colors = require("colors/safe");
-	}
-	catch (e) {
-		// nothing to do here
-	}
+    let colors = null;
+    try {
+        colors = require("colors/safe");
+    }
+    catch (e) {
+        // nothing to do here
+    }
 
 // module
 
 module.exports = function doNothing () {
-	return colors.red ? colors.red("test") : "test";
+    return colors.red ? colors.red("test") : "test";
 };

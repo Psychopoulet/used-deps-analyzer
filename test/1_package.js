@@ -1,61 +1,59 @@
-"use strict";
-
 // deps
 
-	// natives
-	const { join } = require("node:path");
-	const { strictEqual } = require("node:assert");
+    // natives
+    const { join } = require("node:path");
+    const { strictEqual } = require("node:assert");
 
-	// locals
-	const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
+    // locals
+    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
 
 // tests
 
 describe("package", () => {
 
-	it("should test missing package", (done) => {
+    it("should test missing package", (done) => {
 
-		usedDepsAnalyzer().then(() => {
-			done(new Error("No error generated"));
-		}).catch((err) => {
+        usedDepsAnalyzer().then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
 
-			strictEqual(typeof err, "object");
-			strictEqual(err instanceof ReferenceError, true);
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof ReferenceError, true);
 
-			done();
+            done();
 
-		});
+        });
 
-	});
+    });
 
-	it("should test wrong type package", (done) => {
+    it("should test wrong type package", (done) => {
 
-		usedDepsAnalyzer(false).then(() => {
-			done(new Error("No error generated"));
-		}).catch((err) => {
+        usedDepsAnalyzer(false).then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
 
-			strictEqual(typeof err, "object");
-			strictEqual(err instanceof TypeError, true);
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof TypeError, true);
 
-			done();
+            done();
 
-		});
+        });
 
-	});
+    });
 
-	it("should test empty package", (done) => {
+    it("should test empty package", (done) => {
 
-		usedDepsAnalyzer("").then(() => {
-			done(new Error("No error generated"));
-		}).catch((err) => {
+        usedDepsAnalyzer("").then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
 
-			strictEqual(typeof err, "object");
-			strictEqual(err instanceof Error, true);
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof Error, true);
 
-			done();
+            done();
 
-		});
+        });
 
-	});
+    });
 
 });

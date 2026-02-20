@@ -1,318 +1,315 @@
-
-"use strict";
-
 // deps
 
-	// natives
-	const { join } = require("node:path");
-	const { strictEqual } = require("node:assert");
+    // natives
+    const { join } = require("node:path");
+    const { strictEqual } = require("node:assert");
 
-	// locals
-	const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
+    // locals
+    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
 
 // consts
 
-	const packageFile = join(__dirname, "..", "package.json");
-	const sourceDirectory = join(__dirname, "..", "src");
+    const packageFile = join(__dirname, "..", "package.json");
+    const sourceDirectory = join(__dirname, "..", "lib", "src");
 
 // tests
 
 describe("valid running", () => {
 
-	it("should test current module sources", () => {
+    it("should test current module sources", () => {
 
-		return usedDepsAnalyzer(packageFile, sourceDirectory, {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(packageFile, sourceDirectory, {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test natives", () => {
+    it("should test natives", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "natives", "package.json"), join(__dirname, "natives"), {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "natives", "package.json"), join(__dirname, "natives"), {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 2);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 2);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test overkill", () => {
+    it("should test overkill", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "overkill", "package.json"), join(__dirname, "overkill"), {
-			"noDev": true,
-			"overkill": [ "node-promfs" ]
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "overkill", "package.json"), join(__dirname, "overkill"), {
+            "noDev": true,
+            "overkill": [ "node-promfs" ]
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 2);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 2);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test unused", () => {
+    it("should test unused", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "unused", "package.json"), join(__dirname, "unused"), {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "unused", "package.json"), join(__dirname, "unused"), {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, false);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, false);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 1);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 1);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test missing", () => {
+    it("should test missing", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "missing", "package.json"), join(__dirname, "missing"), {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "missing", "package.json"), join(__dirname, "missing"), {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, false);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, false);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 2);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 2);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test misscalled compatibility", () => {
+    it("should test misscalled compatibility", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "misscalled", "package.json"), join(__dirname, "misscalled"), {
-			"noDev": true,
-			"misscalled": [
-				{
-					"module": "colors",
-					"call": "colors/safe"
-				}
-			]
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "misscalled", "package.json"), join(__dirname, "misscalled"), {
+            "noDev": true,
+            "misscalled": [
+                {
+                    "module": "colors",
+                    "call": "colors/safe"
+                }
+            ]
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test shadows compatibility", () => {
+    it("should test shadows compatibility", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "shadows", "package.json"), join(__dirname, "shadows"), {
-			"noDev": true,
-			"shadows": [ "colors" ]
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "shadows", "package.json"), join(__dirname, "shadows"), {
+            "noDev": true,
+            "shadows": [ "colors" ]
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test absolute path", () => {
+    it("should test absolute path", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "absolute-path", "package.json"), join(__dirname, "absolute-path"), {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "absolute-path", "package.json"), join(__dirname, "absolute-path"), {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test relative path", () => {
+    it("should test relative path", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "relative-path", "package.json"), join(__dirname, "relative-path"), {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "relative-path", "package.json"), join(__dirname, "relative-path"), {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test combo", () => {
+    it("should test combo", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "combo", "package.json"), join(__dirname, "combo"), {
-			"onlyDev": true,
-			"misscalled": [
-				{
-					"module": "colors",
-					"call": "colors/safe"
-				}
-			]
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "combo", "package.json"), join(__dirname, "combo"), {
+            "onlyDev": true,
+            "misscalled": [
+                {
+                    "module": "colors",
+                    "call": "colors/safe"
+                }
+            ]
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test optional", () => {
+    it("should test optional", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "optional", "package.json"), join(__dirname, "optional"), {
-			"onlyDev": true,
-			"misscalled": [
-				{
-					"module": "colors",
-					"call": "colors/safe"
-				}
-			]
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "optional", "package.json"), join(__dirname, "optional"), {
+            "onlyDev": true,
+            "misscalled": [
+                {
+                    "module": "colors",
+                    "call": "colors/safe"
+                }
+            ]
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
-	it("should test not required", () => {
+    it("should test not required", () => {
 
-		return usedDepsAnalyzer(join(__dirname, "not_required", "package.json"), join(__dirname, "not_required"), {
-			"noDev": true
-		}).then((result) => {
+        return usedDepsAnalyzer(join(__dirname, "not_required", "package.json"), join(__dirname, "not_required"), {
+            "noDev": true
+        }).then((result) => {
 
-			strictEqual(typeof result, "object");
+            strictEqual(typeof result, "object");
 
-				strictEqual(typeof result.result, "boolean");
-				strictEqual(result.result, true);
+                strictEqual(typeof result.result, "boolean");
+                strictEqual(result.result, true);
 
-				strictEqual(typeof result.warnings, "object");
-				strictEqual(result.warnings instanceof Array, true);
-				strictEqual(result.warnings.length, 0);
+                strictEqual(typeof result.warnings, "object");
+                strictEqual(result.warnings instanceof Array, true);
+                strictEqual(result.warnings.length, 0);
 
-				strictEqual(typeof result.errors, "object");
-				strictEqual(result.errors instanceof Array, true);
-				strictEqual(result.errors.length, 0);
+                strictEqual(typeof result.errors, "object");
+                strictEqual(result.errors instanceof Array, true);
+                strictEqual(result.errors.length, 0);
 
-		});
+        });
 
-	});
+    });
 
 });

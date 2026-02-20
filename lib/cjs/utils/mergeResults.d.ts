@@ -1,2 +1,2 @@
-import { iResult } from "../interfaces";
+import type { iResult } from "../interfaces";
 export default function mergeResults(source: iResult, target: iResult): void;

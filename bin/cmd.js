@@ -1,144 +1,150 @@
 #!/usr/bin/env node
-"use strict";
 
 // deps
 
-	// natives
-	const { join } = require("node:path");
-	const { EOL } = require("node:os");
+    // natives
+    const { join } = require("node:path");
+    const { EOL } = require("node:os");
 
-	// externals
+    // externals
 
-	let colors = null;
-	try { // test require optional deps
-		colors = require("colors/safe");
-	}
-	catch (e) {
-		// nothing to do here
-	}
+    let colors = null;
+    try { // test require optional deps
+        colors = require("colors/safe");
+    }
+    catch (e) {
+        // nothing to do here
+    }
 
-	// locals
-	const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
+    // locals
+    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
 
 // consts
 
-	const ARGS = (0, process).argv.slice(2, (0, process).argv.length);
+    const ARGS = (0, process).argv.slice(2, (0, process).argv.length);
 
 // module
 
 Promise.resolve().then(() => {
 
-	if (1 > ARGS.length) {
-		return Promise.reject(new ReferenceError("Missing \"packageFile\" argument"));
-	}
-	else if (2 > ARGS.length) {
-		return Promise.reject(new ReferenceError("Missing \"sourcesDir\" argument"));
-	}
-	else {
-		return Promise.resolve();
-	}
+    if (1 > ARGS.length) {
+        return Promise.reject(new ReferenceError("Missing \"packageFile\" argument"));
+    }
+    else if (2 > ARGS.length) {
+        return Promise.reject(new ReferenceError("Missing \"sourcesDir\" argument"));
+    }
+
+    return Promise.resolve();
 
 }).then(() => {
 
-	const errors = [];
-	const options = {};
+    const errors = [];
+    const options = {};
 
-		ARGS.forEach((arg, i) => {
+        ARGS.forEach((arg, i) => {
 
-			if ("--" !== arg && arg.startsWith("--")) {
+            if ("--" !== arg && arg.startsWith("--")) {
 
-				switch (ARGS[i]) {
+                switch (ARGS[i]) {
 
-					case "--no-dev":
-						options.noDev = true;
-					break;
-					case "--only-dev":
-						options.onlyDev = false;
-					break;
+                    case "--no-dev":
+                        options.noDev = true;
+                    break;
+                    case "--only-dev":
+                        options.onlyDev = true;
+                    break;
 
-					case "--overkill":
+                    case "--overkill":
 
-						options.overkill = [];
+                        options.overkill = [];
 
-						for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
-							options.overkill.push(ARGS[j]);
-						}
+                        for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
+                            options.overkill.push(ARGS[j]);
+                        }
 
-					break;
+                    break;
 
-					case "--misscalled":
+                    case "--misscalled":
 
-						options.misscalled = [];
+                        options.misscalled = [];
 
-						for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
+                        for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
 
-							try {
-								options.misscalled.push(JSON.parse(ARGS[j]));
-							}
-							catch (e) {
-								errors.push("Malformed \"" + String(ARGS[j]) + "\" argument");
-							}
+                            try {
 
-						}
+                                const parsed = JSON.parse(ARGS[j]);
 
-					break;
-					case "--shadows":
+                                if ("object" !== typeof parsed || null === parsed || "string" !== typeof parsed.module || "string" !== typeof parsed.call) {
+                                    errors.push("Invalid --misscalled \"" + String(ARGS[j]) + "\" : object must have \"module\" and \"call\" string properties");
+                                }
+                                else {
+                                    options.misscalled.push(parsed);
+                                }
 
-						options.shadows = [];
+                            }
+                            catch (e) {
+                                errors.push("Malformed \"" + String(ARGS[j]) + "\" argument");
+                            }
 
-						for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
-							options.shadows.push(ARGS[j]);
-						}
+                        }
 
-					break;
+                    break;
 
-					default:
-						errors.push(new RangeError("Unknown \"" + String(ARGS[i]) + "\" argument"));
-					break;
+                    case "--shadows":
 
-				}
+                        options.shadows = [];
 
-			}
+                        for (let j = i + 1; j < ARGS.length && !ARGS[j].startsWith("--"); ++j) {
+                            options.shadows.push(ARGS[j]);
+                        }
 
-		});
+                    break;
 
-	return errors.length ? Promise.reject(new Error(errors.join(EOL))) : usedDepsAnalyzer(ARGS[0], ARGS[1], options).then((analyse) => {
+                    default:
+                        errors.push("Unknown \"" + String(ARGS[i]) + "\" argument");
+                    break;
 
-		if (analyse.result) {
+                }
 
-			analyse.warnings.forEach((warn) => {
-				(0, console).warn(colors ? colors.yellow(warn) : warn);
-			});
+            }
 
-			(0, process).exitCode = 0;
-			(0, process).exit(0);
+        });
 
-		}
-		else {
+    return errors.length
+        ? Promise.reject(new Error(errors.join(EOL)))
+        : usedDepsAnalyzer(ARGS[0], ARGS[1], options).then((analyse) => {
 
-			analyse.warnings.forEach((warn) => {
-				(0, console).warn(colors ? colors.yellow(warn) : warn);
-			});
+        analyse.warnings.forEach((warn) => {
+            (0, console).warn(colors ? colors.yellow(warn) : warn);
+        });
 
-			analyse.errors.forEach((err) => {
-				(0, console).error(colors ? colors.red(err) : err);
-			});
+        if (analyse.result) {
 
-			(0, process).exitCode = 2;
-			(0, process).exit(2);
+            (0, process).exitCode = 0;
+            (0, process).exit(0);
 
-		}
+        }
+        else {
 
-	});
+            analyse.errors.forEach((err) => {
+                (0, console).error(colors ? colors.red(err) : err);
+            });
+
+            (0, process).exitCode = 2;
+            (0, process).exit(2);
+
+        }
+
+    });
 
 }).catch((err) => {
 
-	const error = err.message ? err.message : err;
+    const error = err.message ? err.message : err;
 
-	(0, console).log("");
-	(0, console).error(colors ? colors.red(error) : error);
+    (0, console).log("");
+    (0, console).error(colors ? colors.red(error) : error);
 
-	(0, process).exitCode = 1;
-	(0, process).exit(1);
+    (0, process).exitCode = 1;
+    (0, process).exit(1);
 
 });
