@@ -85,7 +85,7 @@
 
                             return isDirectory(item).then((isThisItemADirectory: boolean): void => {
 
-                                if (isThisItemADirectory) {
+                                if (isThisItemADirectory && "node_modules" !== f) {
                                     dirs.push(item);
                                 }
 
