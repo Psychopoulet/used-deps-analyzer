@@ -101,7 +101,7 @@ Promise.resolve().then(() => {
                     break;
 
                     default:
-                        errors.push(new RangeError("Unknown \"" + String(ARGS[i]) + "\" argument"));
+                        errors.push("Unknown \"" + String(ARGS[i]) + "\" argument");
                     break;
 
                 }
