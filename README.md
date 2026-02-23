@@ -1,8 +1,16 @@
 # used-deps-analyzer
 Analyse js code to force match between installed & used deps
 
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Psychopoulet_used-deps-analyzer&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Psychopoulet_used-deps-analyzer)
 [![Issues](https://img.shields.io/github/issues/Psychopoulet/used-deps-analyzer.svg)](https://github.com/Psychopoulet/used-deps-analyzer/issues)
 [![Pull requests](https://img.shields.io/github/issues-pr/Psychopoulet/used-deps-analyzer.svg)](https://github.com/Psychopoulet/used-deps-analyzer/pulls)
+
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Psychopoulet_used-deps-analyzer&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Psychopoulet_used-deps-analyzer)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Psychopoulet_used-deps-analyzer&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Psychopoulet_used-deps-analyzer)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Psychopoulet_used-deps-analyzer&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Psychopoulet_used-deps-analyzer)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Psychopoulet_used-deps-analyzer&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Psychopoulet_used-deps-analyzer)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Psychopoulet_used-deps-analyzer&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Psychopoulet_used-deps-analyzer)
+
 [![Known Vulnerabilities](https://snyk.io/test/github/Psychopoulet/used-deps-analyzer/badge.svg)](https://snyk.io/test/github/Psychopoulet/used-deps-analyzer)
 
 ## Installation
