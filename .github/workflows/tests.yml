@@ -17,7 +17,7 @@ concurrency:
 
 on:
   pull_request:
-    branches: [ master ]                    # On PR targeting master
+    branches: [ main ]                      # On PR targeting main
   workflow_dispatch:                        # Manual trigger in the UI
 
 # ══════════════════════════════════════════════════════════════════════════════
