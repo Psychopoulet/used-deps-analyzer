@@ -19,8 +19,6 @@
 
   "scripts": {
 
-    "prepare": "npx husky || true",
-
     "lint-bin": "npx eslint --config .eslintrc-bin.js --ext .js,.cjs,.mjs ./bin/**/*",
     "lint-back": "npx eslint --config .eslintrc-back.js --ext .ts,.cts,.mts ./lib/src/**/*",
     "lint-tests": "npx eslint --config .eslintrc-tests.js --ext .js,.cjs,.mjs ./test/**/*",
@@ -67,13 +65,6 @@
   },
   "optionalDependencies": {
     "colors": "1.4.0"
-  },
-
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run build && npm run unit-tests-local"
-    }
   },
 
   "keywords": [
