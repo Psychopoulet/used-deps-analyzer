@@ -5,7 +5,7 @@
     const { strictEqual } = require("node:assert");
 
     // locals
-    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
+    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "src", "main.cts"));
 
 // consts
 
