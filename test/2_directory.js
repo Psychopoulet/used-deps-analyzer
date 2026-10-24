@@ -45,6 +45,22 @@ describe("directory", () => {
 
     });
 
+    it("should test an unknown directory", (done) => {
+
+        usedDepsAnalyzer(packageFile, join(__dirname, "not-a-directory")).then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
+
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof ReferenceError, true);
+            strictEqual(err.message, "Directory to analyse not found");
+
+            done();
+
+        });
+
+    });
+
     it("should test empty directory", (done) => {
 
         usedDepsAnalyzer(packageFile, "").then(() => {

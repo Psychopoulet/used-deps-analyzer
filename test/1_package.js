@@ -41,6 +41,22 @@ describe("package", () => {
 
     });
 
+    it("should test an unknown package file", (done) => {
+
+        usedDepsAnalyzer(join(__dirname, "not-a-package.json"), join(__dirname)).then(() => {
+            done(new Error("No error generated"));
+        }).catch((err) => {
+
+            strictEqual(typeof err, "object");
+            strictEqual(err instanceof ReferenceError, true);
+            strictEqual(err.message, "Package file not found");
+
+            done();
+
+        });
+
+    });
+
     it("should test empty package", (done) => {
 
         usedDepsAnalyzer("").then(() => {
