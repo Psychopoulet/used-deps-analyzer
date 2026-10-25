@@ -1,0 +1,8 @@
+{
+	"name": "test-unused-dev",
+	"version": "0.0.1",
+	"dependencies": {},
+	"devDependencies": {
+		"never-used": "1.0.0"
+	}
+}

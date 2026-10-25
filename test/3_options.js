@@ -5,12 +5,12 @@
     const { strictEqual } = require("node:assert");
 
     // locals
-    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "cjs", "main.cjs"));
+    const usedDepsAnalyzer = require(join(__dirname, "..", "lib", "src", "main.cts"));
 
 // consts
 
     const packageFile = join(__dirname, "..", "package.json");
-    const sourceDirectory = join(__dirname, "..", "src");
+    const sourceDirectory = join(__dirname, "..", "lib", "src");
 
 // tests
 
@@ -27,6 +27,7 @@ describe("options", () => {
 
             strictEqual(typeof err, "object");
             strictEqual(err instanceof Error, true);
+            strictEqual(err.message, "\"noDev\" && \"onlyDev\" options are incompatible");
 
             done();
 
