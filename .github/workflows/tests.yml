@@ -17,7 +17,7 @@ concurrency:
 
 on:
   pull_request:
-    branches: [ main ]                      # On PR targeting main
+    branches: [ master ]                    # On PR targeting master
   workflow_dispatch:                        # Manual trigger in the UI
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -52,10 +52,10 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: Only allow PRs from develop into main
+      - name: Only allow PRs from develop into master
         run: |
-          if [ "${{ github.base_ref }}" = "main" ] && [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "::error::Merges into main are only allowed from the 'develop' branch (got '${{ github.head_ref }}')."
+          if [ "${{ github.base_ref }}" = "master" ] && [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "::error::Merges into master are only allowed from the 'develop' branch (got '${{ github.head_ref }}')."
             exit 1
           fi
 

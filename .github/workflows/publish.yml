@@ -18,7 +18,7 @@ concurrency:
 
 on:
   push:
-    branches: [ main ]                      # After merge (push to main)
+    branches: [ master ]                    # After merge (push to master)
   workflow_dispatch:                        # Manual trigger in the UI
 
 # ══════════════════════════════════════════════════════════════════════════════
