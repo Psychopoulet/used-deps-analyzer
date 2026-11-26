@@ -1,7 +1,7 @@
 {
 
   "name": "used-deps-analyzer",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Analyse js code to force match between installed & used deps.",
 
   "type": "commonjs",
