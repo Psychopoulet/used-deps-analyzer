@@ -16,7 +16,7 @@ Analyse js code to force match between installed & used deps
 ## Installation
 
 ```bash
-$ npm install used-deps-analyzer
+$ bun add used-deps-analyzer
 ```
 
 ## Features
@@ -52,7 +52,7 @@ interface iSubModule {
 ### Run
 
 ```batch
-cd ./myProject/ && npx used-deps-analyzer -- "./package.json" "./dir" --no-dev
+cd ./myProject/ && bunx used-deps-analyzer -- "./package.json" "./dir" --no-dev
 ```
 
 ```js
@@ -102,7 +102,7 @@ usedDepsAnalyzer("./package.json", "./src", {
 ## Tests
 
 ```bash
-$ npm run tests
+$ bun run tests
 ```
 
 ## License
